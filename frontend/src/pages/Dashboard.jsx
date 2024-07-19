@@ -5,22 +5,12 @@ import { fetchDashboard } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-// totalProducts,
-// 			totalTransactions,
-// 			totalUsers,
-// 			totalOrders,
-// 			pendingOrders,
-// 			shippedOrders,
-// 			averageDailySales,
-// 			categorySales,
-// 			recentOrders,
-// 			newUsers,
-// 			percentageNewUsers,
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
-	const navigate = useNavigate();
+	console.log(user);
+	// const navigate = useNavigate();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['dashboard'],
 		queryFn: async () => fetchDashboard(user),
@@ -64,8 +54,8 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{/* {data?.totalBusiness} */}
-								30
+								{data?.totalbuses}
+								{/* 30 */}
 							</h4>
 							<p className="text-tiny leading-4">Buses</p>
 							<div className="badge space-x-1">
@@ -153,8 +143,8 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{/* {data?.totalAssets} */}
-								15
+								{data?.totaltrips}
+								{/* 15 */}
 							</h4>
 							<p className="text-tiny leading-4">Trips</p>
 							<div className="badge space-x-1 text-purple bg-purple/10">
@@ -228,7 +218,7 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{/* {data?.totalcustomers} */} 50
+								{data?.totalusers}
 							</h4>
 							<p className="text-tiny leading-4">Users</p>
 							<div className="badge space-x-1 text-info bg-info/10">
@@ -316,8 +306,8 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{/* {data?.pendingOrders} */}
-								200
+								{data?.totalbookings}
+								{/* 200 */}
 							</h4>
 							<p className="text-tiny leading-4">Bookings</p>
 							<div className="badge space-x-1 text-warning bg-warning/10">

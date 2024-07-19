@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
 			refreshToken,
 		});
 		if (response.status === 200) {
-			const accessToken = response.data.token;
+			const accessToken = response.data.token || response.data.accessToken;
 			updateAccessToken(accessToken);
 			const user = await LocalStorage.get('user');
 			setUser(user);

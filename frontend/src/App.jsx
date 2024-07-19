@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import NotFound from './NotFound';
 import Layout from './Layout';
 import Dashboard from './pages/Dashboard';
+import Booking from './pages/Booking';
+import Book from './pages/Book';
 import DashboardLayout from './pages/DashboardLayout';
 function App() {
 	return (
@@ -14,8 +16,11 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route element={<ProtectedRoutes />}>
 					<Route exact path="/" element={<DashboardLayout />}>
-						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/" element={<Dashboard />} />
+						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/add-bus" element={<Book />} />
+						<Route path="/book" element={<Book />} />
+						<Route path="/bookings" element={<Booking />} />
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFound />} />

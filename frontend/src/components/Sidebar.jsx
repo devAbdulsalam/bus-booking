@@ -5,6 +5,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { LocalStorage } from '../hooks/LocalStorage';
 import AuthContext from '../context/authContext';
 // import logo from './../assets/img/icons/icon.png';
+
+import logo from '../assets/logo.jpg';
 const Sidebar = ({ sideMenu, setSideMenu }) => {
 	const navigate = useNavigate();
 	const [nav, setNav] = useState(null);
@@ -25,7 +27,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 		LocalStorage.remove('token');
 		setUser('');
 		setToken('');
-		navigate('login');
+		navigate('/login');
 		setIsLogoutModal(false);
 	};
 
@@ -62,10 +64,10 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 				}`}
 			>
 				<div className="h-full flex flex-col">
-					<div className="py-4 pb-8 px-8 border-b border-gray h-[78px] w-full flex justify-between debug items-center">
-						<NavLink to={'/'} className="w-[140px] flex items-center">
-							{/* <img className="mx-auto" src={logo} alt="" /> */}
-							<h2>Tatabus</h2>
+					<div className="py-4 pb-8 px-8 border-b border-gray h-[78px] w-full flex justify-between items-center">
+						<NavLink to={'/'} className="w-[140px] flex items-center mx-auto">
+							<img className="mx-auto w-16 h-16" src={logo} alt="" />
+							{/* <h2>Tatabus</h2> */}
 						</NavLink>
 						<button
 							type="button"

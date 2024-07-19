@@ -1,7 +1,7 @@
 // import React from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { fetchOrders } from '../hooks/axiosApis';
-import getHighestPriceItem from '../hooks/getHighestPriceItem';
+// import getHighestPriceItem from '../hooks/getHighestPriceItem';
 import { Fragment, useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/authContext';
 import toast from 'react-hot-toast';
@@ -257,17 +257,6 @@ const Order = () => {
 							<tbody>
 								{orders?.length > 0 &&
 									orders?.map((order) => {
-										const highestPriceItem = getHighestPriceItem(order.cart);
-										// 	.reduce(
-										// 	(maxItem, currentItem) => {
-										// 		return currentItem.price > maxItem.price
-										// 			? currentItem
-										// 			: maxItem;
-										// 	},
-										// 	order.cart[0]
-										// );
-
-										// console.log(highestPriceItem?.image?.url);
 										return (
 											<tr
 												key={order._id}
@@ -286,8 +275,8 @@ const Order = () => {
 													>
 														<img
 															className="w-[60px] h-[60px] rounded-md"
-															src={highestPriceItem?.image?.url}
-															alt={highestPriceItem?.name}
+															// src={highestPriceItem?.image?.url}
+															// alt={highestPriceItem?.name}
 														/>
 														<span className="font-medium text-heading text-hover-primary transition">
 															{order.name || order.firstName}

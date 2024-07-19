@@ -323,7 +323,7 @@ const Header = ({ sideMenu, setSideMenu }) => {
 								<img
 									className="w-[40px] h-[40px] rounded-md"
 									src={user?.image?.url || userImage}
-									alt={user?.name}
+									alt={user?.user?.name}
 								/>
 								<span className="w-[12px] h-[12px] inline-block bg-green-500 rounded-full absolute -top-[4px] -right-[4px] border-[2px] border-white"></span>
 							</button>
@@ -348,15 +348,15 @@ const Header = ({ sideMenu, setSideMenu }) => {
 											<img
 												className="w-[50px] h-[50px] rounded-md"
 												src={user?.image?.url || userImage}
-												alt={user?.name}
+												alt={user?.user?.name}
 											/>
 										</Link>
 										<div className="">
 											<h5 className="text-base mb-1 leading-none">
-												{user?.name}
+												{user?.user?.name}
 											</h5>
 											<p className="mb-0 text-tiny leading-none">
-												{user?.email}
+												{user?.user?.email}
 											</p>
 										</div>
 									</div>

@@ -58,6 +58,30 @@ export const loginUser = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+export const loginAdmin = async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		const user = await User.findOne({ email });
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		if (user.role !== 'ADMIN') {
+			return res.status(401).json({ message: 'Unauthorized request' });
+		}
+
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (!isMatch) {
+			return res.status(400).json({ message: 'Invalid credentials' });
+		}
+
+		const newUser = await User.findOne({ email }).select('-password');
+		const accessToken = await createToken({ user: newUser });
+		const refreshToken = await createRefreshToken({ _id: user._id });
+		res.status(200).json({ user: newUser, accessToken, refreshToken });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
 export const refreshToken = async (req, res) => {
 	const { refreshToken } = req.body;
 	try {

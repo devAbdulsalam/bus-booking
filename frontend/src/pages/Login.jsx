@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { bgImage, logo } from './../data';
 import Loader from '../components/Loader';
 import getError from './../hooks/getError';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { LocalStorage } from '../hooks/LocalStorage';
 import AuthContext from '../context/authContext';
 import Swal from 'sweetalert2';
-
+import logo from '../assets/logo.jpg';
+import bgImage from '../assets/adust.png';
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -17,6 +17,7 @@ const Login = () => {
 	const apiUrl = import.meta.env.VITE_API_URL;
 	const { user, setUser } = useContext(AuthContext);
 	const navigate = useNavigate();
+	console.log(user);
 	useEffect(() => {
 		if (user) {
 			navigate('/');
@@ -59,9 +60,9 @@ const Login = () => {
 				<div className="4xl:max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
 					<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
 						<div>
-							<img src={logo} className="w-mx-auto" />
+							<img src={logo} className="w-mx-auto h-32 mx-auto" />
 						</div>
-						<div className="mt-12 flex flex-col items-center">
+						<div className="mt-2 flex flex-col items-center">
 							<div className="w-full flex-1 mt-8">
 								<div className="flex flex-col items-center">
 									<button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-2 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -182,17 +183,17 @@ const Login = () => {
 										</svg>
 										<span className="ml-4">Sign In</span>
 									</button>
-									<p className="text-center text-sm mt-6">
+									{/* <p className="text-center text-sm mt-6">
 										Don&rsquo;t have an account?{' '}
 										<Link
+										to="/register"
 											className="ml-1text-red-500 hover:underline text-blue-500"
-											to="/register"
 										>
 											Sign up
 										</Link>
-									</p>
+									</p> */}
 									<p className="mt-6 text-xs text-gray-600 text-center">
-										I agree to abide by Cartesian Kinetics
+										I agree to abide by Adust
 										<a
 											href="#"
 											className="ml-1 border-b border-gray-500 border-dotted"

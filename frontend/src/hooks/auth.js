@@ -16,14 +16,13 @@ export const getRefreshToken = () => {
 
 export const getAccessToken = () => {
 	return (
-		// LocalStorage.get('user')?.accessToken
-		LocalStorage.get('user')?.token
+		LocalStorage.get('user')?.accessToken || LocalStorage.get('user')?.token
 	);
 };
 
 export const updateAccessToken = (token) => {
 	const user = LocalStorage.get('user');
-	// user.accessToken = token;
+	user.accessToken = token;
 	user.token = token;
 	LocalStorage.set('user', user);
 };

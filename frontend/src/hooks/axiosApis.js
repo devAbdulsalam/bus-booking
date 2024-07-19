@@ -14,7 +14,7 @@ export const fetchUsers = async (user) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token}`,
+				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/users`, config);
@@ -28,9 +28,10 @@ export const fetchDashboard = async (user) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token}`,
+				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
+		console.log()
 		const { data } = await axios.get(`${apiUrl}/users/admin/dashboard`, config);
 		return data;
 	} catch (error) {
@@ -42,7 +43,7 @@ export const fetchBuses = async (user) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token}`,
+				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/buses`, config);
@@ -56,7 +57,7 @@ export const fetchBus = async (props) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${props?.token}`,
+				Authorization: `Bearer ${props?.token || props.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/buses/${props.id}`, config);
@@ -70,7 +71,7 @@ export const fetchBookings = async (user) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token}`,
+				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/buses`, config);
@@ -84,7 +85,7 @@ export const fetchBooking = async (props) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${props?.token}`,
+				Authorization: `Bearer ${props?.token || props.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/buses/${props.id}`, config);
