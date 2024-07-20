@@ -66,6 +66,61 @@ export const fetchBooking = async (props) => {
 		return error;
 	}
 };
+export const fetchTrips = async (accessToken) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		};
+		const data = await axios
+			.get(`${apiUrl}/trips`, config)
+			.then((res) => res.data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
+export const fetchTrip = async (props) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${props?.accessToken}`,
+		},
+	};
+	try {
+		const data = await axios
+			.get(`${apiUrl}/trips/${props.id}`, config)
+			.then((res) => res.data);
+		// console.log('fetchuser data', data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
+export const fetchSearchTrip = async (props) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${props?.accessToken}`,
+		},
+		params: {
+			date: props.date,
+			from: props.from,
+			to: props.to,
+		},
+	};
+	try {
+		const data = await axios
+			.get(`${apiUrl}/buses`, config)
+			.then((res) => res.data);
+		console.log('fetch search trips data', data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
 export const fetchReports = async (accessToken) => {
 	try {
 		const config = {
@@ -88,6 +143,7 @@ export const fetchReport = async (props) => {
 			Authorization: `Bearer ${props?.accessToken}`,
 		},
 	};
+	console.log(i);
 	try {
 		const data = await axios
 			.get(`${apiUrl}/reports/${props.id}`, config)

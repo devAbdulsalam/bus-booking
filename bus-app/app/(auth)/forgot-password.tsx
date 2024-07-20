@@ -41,7 +41,7 @@ const ForgetPassword = () => {
 				<HaveAccOrNot
 					type="login"
 					text="Already have an account?"
-					routeName="Login"
+					routeName="login"
 					navigation={router}
 				/>
 			</View>

@@ -1,90 +1,58 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import {
-	EvilIcons,
-	FontAwesome6,
-	AntDesign,
-	Fontisto,
-	MaterialIcons,
-	MaterialCommunityIcons,
-	Ionicons,
-	Entypo,
-	FontAwesome,
-	Feather,
-	FontAwesome5,
-} from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 
 type transactionProps = {
 	item: {
 		name: string;
-		amount: number | string;
-		id: number;
-		type: string;
-		description: string | null;
-		logo: string | null;
+		price: number | string;
+		seat: number | string;
+		_id: number;
+		status: string;
 	};
 };
 const Transaction = ({ item }: transactionProps) => {
 	const theme = useTheme();
-	const getTransactionIcon = (type: string) => {
-		switch (type) {
-			case 'mobile':
-				return <Entypo name="mobile" size={24} color="black" />;
-			case 'Airtime':
-				return <Entypo name="mobile" size={24} color="black" />;
-			case 'bill':
-				return <MaterialCommunityIcons name="cash" size={24} color="black" />;
-			case 'electricity':
-				return <MaterialIcons name="electric-bolt" size={24} color="black" />;
+	console.log(item);
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'CONFIRMED':
+				return 'blue';
+			case 'COMPLETED':
+				return 'green';
+			case 'PENDING':
+				return 'yellow';
 			default:
-				return (
-					<FontAwesome6
-						name={
-							type === 'transfer'
-							? 'money-bill-transfer'
-							: 'arrow-right-arrow-left'
-						}
-						size={24}
-						color="white"
-					/>
-				);
+				return 'red';
 		}
 	};
 	return (
-		<View key={item.id} style={styles.transaction}>
+		<View key={item?._id} style={styles.transaction}>
 			<View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-				{item?.logo ? (
-					<Image
-						source={{
-							uri:
-								item?.logo || `https://ui-avatars.com/api/?name=${item?.logo}`,
-						}}
-						style={{
-							height: 38,
-							width: 38,
-							borderRadius: 19,
-							borderWidth: 1,
-							borderColor: '#D0D0D0',
-						}}
-					/>
-				) : (
-					<View style={styles.transactionIcon}>
-						{getTransactionIcon(item.type)}
-					</View>
-				)}
+				<Image
+					source={{
+						uri: `https://ui-avatars.com/api/?name=${item?._id}`,
+					}}
+					style={{
+						height: 38,
+						width: 38,
+						borderRadius: 19,
+						borderWidth: 1,
+						borderColor: '#D0D0D0',
+					}}
+				/>
 				<View>
-					<Text style={styles.transactionTitle}>{item.name}</Text>
-					<Text style={styles.transactionText}>Banking</Text>
+					<Text style={styles.transactionTitle}>Seats: {item?.seat}</Text>
+					<Text style={styles.transactionText}>Price: {item?.price}</Text>
 				</View>
 			</View>
 			<Text
 				style={{
 					...styles.transactionTitle,
-					color: item.type === 'Deposit' ? 'green' : 'red',
+					color: getStatusColor(item?.status),
 				}}
 			>
-				{item.type === 'Deposite' ? `₦${item.amount}` : `₦${item.amount}`}
+				{item?.status}
 			</Text>
 		</View>
 	);

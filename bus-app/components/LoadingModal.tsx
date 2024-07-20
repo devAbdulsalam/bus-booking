@@ -1,13 +1,20 @@
 import React from 'react';
 import { View, Text, Modal, StyleSheet, ActivityIndicator } from 'react-native';
 import { colors } from '../AppStyles';
+import { COLORS } from '@/constants/Colors';
 
 const LoadingModal = ({ loading }: { loading: boolean }) => {
 	return (
 		<Modal animationType="slide" transparent={true} visible={loading}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
-					{loading && <ActivityIndicator animating={loading} />}
+					{loading && (
+						<ActivityIndicator
+							animating={loading}
+							size={'large'}
+							color={COLORS.primary}
+						/>
+					)}
 				</View>
 			</View>
 		</Modal>

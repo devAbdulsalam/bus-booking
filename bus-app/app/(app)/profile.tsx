@@ -34,6 +34,8 @@ const Index = () => {
 		router.navigate('/');
 	};
 	const handleLogout = () => {
+		console.log('logout');
+		// logoutFn();
 		Alert.alert('Logout', 'Are you sure you want to log out?', [
 			{
 				text: 'cancel',

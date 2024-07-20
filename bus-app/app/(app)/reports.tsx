@@ -4,6 +4,8 @@ import { fetchReports } from '@/api/index';
 import { useAuth } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
+import SafeScrollView from '@/components/SafeScrollView';
+import Header from '@/components/Header';
 import { router } from 'expo-router';
 const reportDetails = () => {
 	const { token } = useAuth();
@@ -25,14 +27,9 @@ const reportDetails = () => {
 			{isLoading ? (
 				<Loader />
 			) : (
-				<View>
+				<SafeScrollView header={<Header title="Reports" backButtonHandler={() => router.back()} />}>
 					<FlatList
-						keyExtractor={(item) => item._id.toString()}
-						ListHeaderComponent={() => (
-							<View>
-								<Text>Reports</Text>
-							</View>
-						)}
+						keyExtractor={(item) => item._id.toString()}						
 						showsVerticalScrollIndicator={false}
 						data={data}
 						renderItem={({ item }) => (
@@ -46,7 +43,7 @@ const reportDetails = () => {
 							</Pressable>
 						)}
 					/>
-				</View>
+				</SafeScrollView>
 			)}
 		</>
 	);

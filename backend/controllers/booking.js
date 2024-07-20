@@ -126,58 +126,7 @@ export const updateBooking = asyncHandler(async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 });
-// export const updateBooking = async (req, res) => {
-// 	try {
-// 		const { id } = req.params;
-// 		const { seat } = req.body;
-// 		const booking = await Booking.findById(id);
-// 		if (!booking) {
-// 			return res.status(404).json({ message: 'Booking not found' });
-// 		}
-// 		// check if the booking is not already confirmed or completed. Status can be 'PENDING', 'CANCELLED', 'CONFIRMED', 'COMPLETED'
-// 		if (confirmed || completed) {
-// 			return res.status(401).json({
-// 				message: 'Cant update already confirmed or completed booking',
-// 			});
-// 		}
 
-// 		const trip = await Trip.findById(tripId).populate('bus');
-// 		if (!trip) {
-// 			return res.status(404).json({ message: 'Trip not found' });
-// 		}
-
-// 		const bus = trip.bus;
-// 		if (bus.seatsFilled >= bus.seatCapacity) {
-// 			return res
-// 				.status(400)
-// 				.json({ message: 'Bus is fully booked, no more available seat.' });
-// 		}
-// 		const availableSeats = bus.seatCapacity - bus.seatsFilled;
-
-// 		if (availableSeats < seat) {
-// 			return res.status(400).json({
-// 				message: `Only ${availableSeats} seat(s) available, but ${seat} seat(s) requested.`,
-// 			});
-// 		}
-// 		const totalPrice = Number(trip.price) * Number(seat);
-// 		const updateBooking = Booking.findByIdAndUpdate(id, {
-// 			userId,
-// 			tripId: trip._id,
-// 			seat,
-// 			price: totalPrice,
-// 		});
-// 		await booking.save();
-
-// 		bus.seatsFilled += 1;
-// 		await bus.save();
-// 		res.status(201).json({
-// 			message: 'Booking updated successfully',
-// 			booking: updateBooking,
-// 		});
-// 	} catch (error) {
-// 		res.status(500).json({ error: error.message });
-// 	}
-// };
 export const updateBookingStatus = async (req, res) => {
 	try {
 		const { id } = req.params;

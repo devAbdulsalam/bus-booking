@@ -19,42 +19,58 @@ import { useTheme } from '@react-navigation/native';
 import { Link, router } from 'expo-router';
 import { useAuth } from '@/context/authContext';
 import Loader from '@/components/Loader';
+import SearchCard from '@/components/SearchCard';
+import Transaction from '@/components/Transaction';
 
 export default function HomeScreen() {
 	const theme = useTheme();
 	const { profile, token } = useAuth();
-	console.log(token)
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['dashboard'],
 		queryFn: async () => fetchDashboard(token),
 	});
 
-	console.log(data);
-	if (error) return <Text>Error :</Text>;
+	if (error) {
+		return <Text>Error :</Text>;
+	}
 
 	if (!data) return null;
-
+	const handlePress = (id: string) => {
+		router.navigate({
+			pathname: '/bookings/booking-info',
+			params: { id },
+		});
+	};
+	const handleTripPress = (id: string) => {
+		router.navigate({
+			pathname: '/bookings/booking-info',
+			params: { id },
+		});
+	};
 	const renderItem = ({ item }: any) => {
 		return (
 			<TouchableOpacity
-				onPress={() => router.navigate(`${item.link}`)}
-				key={item.id}
+				onPress={() => handleTripPress(item._id)}
+				key={item._id}
 				style={styles.serviceItem}
 			>
 				<View
 					style={{
-						height: 50,
-						width: 50,
+						// height: 50,
+						// width: 50,
 						marginBottom: 5,
 						borderRadius: 20,
 						backgroundColor: item.backgroundColor,
-						alignItems: 'center',
-						justifyContent: 'center',
+						// alignItems: 'center',
+						// justifyContent: 'center',
 					}}
 				>
-					<Text>Trips</Text>
+					<Text>From : {item.from}</Text>
+					<Text>To: {item.to}</Text>
+					<Text>Date: {item.date}</Text>
+					<Text>Time: {item.tripTime}</Text>
 				</View>
-				<Text style={{ ...styles.serviceText }}>{item.id}</Text>
+				<Text style={{ ...styles.serviceText }}>Price: {item.price}</Text>
 			</TouchableOpacity>
 		);
 	};
@@ -101,20 +117,17 @@ export default function HomeScreen() {
 						<FlatList
 							ListHeaderComponent={() => (
 								<>
-									<View>
-										<Text>Notifications</Text>
-									</View>
-
+									<SearchCard />
 									<View style={styles.sectionHeaderContainer}>
 										<Text style={styles.sectionHeader}>Latest Trip</Text>
 										<FlatList
-											data={[{ id: 1 }, { id: 2 }]}
+											data={data?.trips}
 											numColumns={3}
 											columnWrapperStyle={{
 												justifyContent: 'space-between',
 												gap: 10,
 											}}
-											keyExtractor={(item) => `${item.id}`}
+											keyExtractor={(item) => `${item._id}`}
 											renderItem={renderItem}
 											style={{ marginTop: 12 }}
 										/>
@@ -127,7 +140,7 @@ export default function HomeScreen() {
 											}}
 										>
 											<Text style={styles.sectionHeader}>Recent Bookings</Text>
-											<Link href="/bookings">
+											<Link href="/booking">
 												<Text style={styles.transactionText}>See all</Text>
 											</Link>
 										</View>
@@ -136,12 +149,8 @@ export default function HomeScreen() {
 							)}
 							showsVerticalScrollIndicator={false}
 							// showsHorizontalScrollIndicator={false}
-							data={[{ id: 1 }, { id: 2 }]}
-							renderItem={({ item }) => (
-								<View>
-									<Text>{item.id}</Text>
-								</View>
-							)}
+							data={data?.bookings}
+							renderItem={({ item }) => <Transaction item={item} />}
 						/>
 					</View>
 				</SafeAreaView>
@@ -214,18 +223,18 @@ const styles = StyleSheet.create({
 		padding: 5,
 		marginVertical: 10,
 		borderRadius: 10,
-		// backgroundColor: 'white',
+		backgroundColor: 'white',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		// shadowColor: 'white',
-		// elevation: 1,
-		// shadowOpacity: 0.5,
-		// shadowRadius: 4,
-		// shadowOffset: {
-		// 	width: 0,
-		// 	height: 2,
-		// },
+		shadowColor: 'white',
+		elevation: 1,
+		shadowOpacity: 0.5,
+		shadowRadius: 4,
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
 	},
 	serviceText: {
 		fontSize: 18,

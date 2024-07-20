@@ -32,20 +32,23 @@ export default function TabLayout() {
 				options={{
 					title: 'Explore',
 					tabBarIcon: ({ color, focused }) => (
-						<TabBarIcon
-							name={focused ? 'code-slash' : 'code-slash-outline'}
-							color={color}
-						/>
+						<TabBarIcon name={focused ? 'bus' : 'bus-sharp'} color={color} />
 					),
 				}}
 			/>
 			<Tabs.Screen
 				name="bookings"
 				options={{
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="booking"
+				options={{
 					title: 'Bookings',
 					tabBarIcon: ({ color, focused }) => (
 						<TabBarIcon
-							name={focused ? 'code-slash' : 'code-slash-outline'}
+							name={focused ? 'calendar' : 'calendar-sharp'}
 							color={color}
 						/>
 					),
@@ -69,7 +72,7 @@ export default function TabLayout() {
 					title: 'Reports',
 					tabBarIcon: ({ color, focused }) => (
 						<TabBarIcon
-							name={focused ? 'code-slash' : 'code-slash-outline'}
+							name={focused ? 'call' : 'call-outline'}
 							color={color}
 						/>
 					),
