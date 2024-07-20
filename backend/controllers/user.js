@@ -108,8 +108,14 @@ export const getUserDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;
 		const reports = await Report.find({ userId });
-		const bookings = await Booking.find({ userId });
-		const data = { user: req.user, reports, bookings };
+		const trips = await Trip.find().limit(5);
+		let result;
+		if (req.user.role === 'ADMIN') {
+			result = await Booking.find().limit(10);
+		} else {
+			result = await Booking.find({ userId });
+		}
+		const data = { user: req.user, reports, bookings: result, trips };
 		// Send the response
 		res.json(data);
 	} catch (err) {

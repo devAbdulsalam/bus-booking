@@ -17,9 +17,32 @@ export const fetchUser = async (props) => {
 		return error;
 	}
 };
-export const fetchBookings = async (props) => {
+export const fetchDashboard = async (accessToken) => {
 	try {
-		const data = await axios.get(`${apiUrl}/bookings`).then((res) => res.data);
+		const config = {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		};
+		const data = await axios
+			.get(`${apiUrl}/users/user/dashboard`, config)
+			.then((res) => res.data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
+export const fetchBookings = async (accessToken) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		};
+		const data = await axios
+			.get(`${apiUrl}/bookings`, config)
+			.then((res) => res.data);
 		return data;
 	} catch (error) {
 		console.log(error?.message);
@@ -35,6 +58,39 @@ export const fetchBooking = async (props) => {
 	try {
 		const data = await axios
 			.get(`${apiUrl}/bookings/${props.id}`, config)
+			.then((res) => res.data);
+		// console.log('fetchuser data', data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
+export const fetchReports = async (accessToken) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		};
+		const data = await axios
+			.get(`${apiUrl}/reports`, config)
+			.then((res) => res.data);
+		return data;
+	} catch (error) {
+		console.log(error?.message);
+		return error;
+	}
+};
+export const fetchReport = async (props) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${props?.accessToken}`,
+		},
+	};
+	try {
+		const data = await axios
+			.get(`${apiUrl}/reports/${props.id}`, config)
 			.then((res) => res.data);
 		// console.log('fetchuser data', data);
 		return data;

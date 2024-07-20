@@ -40,14 +40,31 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name="profile"
+				name="bookings"
 				options={{
-					href: null,
-					title: 'Explore',
+					title: 'Bookings',
+					tabBarIcon: ({ color, focused }) => (
+						<TabBarIcon
+							name={focused ? 'code-slash' : 'code-slash-outline'}
+							color={color}
+						/>
+					),
 				}}
 			/>
 			<Tabs.Screen
-				name="explore"
+				name="profile"
+				options={{
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="report"
+				options={{
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="reports"
 				options={{
 					title: 'Reports',
 					tabBarIcon: ({ color, focused }) => (

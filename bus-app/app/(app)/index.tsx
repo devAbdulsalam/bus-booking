@@ -1,8 +1,11 @@
 import React from 'react';
 // import { Colors } from '@/constants/Colors';
 // import { accounts, transactions, services } from '@/constants/Data';
+import { fetchDashboard } from '@/api/index';
+import { useQuery } from '@tanstack/react-query';
 import { FontAwesome } from '@expo/vector-icons';
 import {
+	SafeAreaView,
 	Image,
 	StyleSheet,
 	Platform,
@@ -14,19 +17,24 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Link, router } from 'expo-router';
-// import Transaction from '@/components/Transaction';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/authContext';
-// import Balance from '@/components/Balance';
-import { getIconComponent } from '@/hooks/getIcon';
+import Loader from '@/components/Loader';
 
 export default function HomeScreen() {
 	const theme = useTheme();
-	const newServices = [...services.slice(0, 5), services[services.length - 1]];
-
 	const { profile, token } = useAuth();
+	console.log(token)
+	const { data, isLoading, error } = useQuery({
+		queryKey: ['dashboard'],
+		queryFn: async () => fetchDashboard(token),
+	});
+
+	console.log(data);
+	if (error) return <Text>Error :</Text>;
+
+	if (!data) return null;
+
 	const renderItem = ({ item }: any) => {
-		const IconComponent = getIconComponent(item.iconType);
 		return (
 			<TouchableOpacity
 				onPress={() => router.navigate(`${item.link}`)}
@@ -44,99 +52,103 @@ export default function HomeScreen() {
 						justifyContent: 'center',
 					}}
 				>
-					{item.iconType === 'Feather ' ? (
-						<IconComponent
-							name={item.icon}
-							size={26}
-							color={item.color || theme.colors.primary}
-						/>
-					) : (
-						<IconComponent
-							name={item.icon}
-							size={24}
-							color={item.color || theme.colors.primary}
-						/>
-					)}
+					<Text>Trips</Text>
 				</View>
-				<Text style={{ ...styles.serviceText }}>{item.name}</Text>
+				<Text style={{ ...styles.serviceText }}>{item.id}</Text>
 			</TouchableOpacity>
 		);
 	};
 
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<Pressable
-					onPress={() => router.navigate('/account')}
-					style={{
-						padding: 10,
-					}}
-				>
-					<Image
-						source={{
-							uri:
-								profile?.avatar?.url ||
-								`https://ui-avatars.com/api/?name=${profile?.firstName}`,
-						}}
+		<>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<SafeAreaView style={styles.container}>
+					<View style={styles.header}>
+						<Pressable
+							onPress={() => router.navigate('/profile')}
+							style={{
+								padding: 10,
+							}}
+						>
+							<Image
+								source={{
+									uri:
+										profile?.avatar?.url ||
+										`https://ui-avatars.com/api/?name=${profile?.name}`,
+								}}
+								style={{
+									height: 48,
+									width: 48,
+									borderRadius: 24,
+									borderWidth: 1,
+									// borderColor: theme.colors.secondary,
+									// tintColor: theme.colors.primary,
+								}}
+							/>
+						</Pressable>
+						<Link href="/">
+							<FontAwesome name="bell-o" size={24} color="black" />
+						</Link>
+					</View>
+					<View
 						style={{
-							height: 48,
-							width: 48,
-							borderRadius: 24,
-							borderWidth: 1,
-							// borderColor: theme.colors.secondary,
-							// tintColor: theme.colors.primary,
+							...styles.section,
+							backgroundColor: theme.colors.background,
 						}}
-					/>
-				</Pressable>
-				<Link href="/notifications">
-					<FontAwesome name="bell-o" size={24} color="black" />
-				</Link>
-			</View>
-			<View
-				style={{ ...styles.section, backgroundColor: theme.colors.background }}
-			>
-				<FlatList
-					ListHeaderComponent={() => (
-						<>
-							<Balance data={accounts} />
+					>
+						<FlatList
+							ListHeaderComponent={() => (
+								<>
+									<View>
+										<Text>Notifications</Text>
+									</View>
 
-							<View style={styles.sectionHeaderContainer}>
-								<Text style={styles.sectionHeader}>Services</Text>
-								<FlatList
-									data={newServices}
-									numColumns={3}
-									columnWrapperStyle={{
-										justifyContent: 'space-between',
-										gap: 10,
-									}}
-									keyExtractor={(item) => `${item.id}`}
-									renderItem={renderItem}
-									style={{ marginTop: 12 }}
-								/>
-								<View
-									style={{
-										flexDirection: 'row',
-										justifyContent: 'space-between',
-										alignItems: 'center',
-										paddingVertical: 5,
-									}}
-								>
-									<Text style={styles.sectionHeader}>Latest transactions</Text>
-									<Text style={styles.transactionText}>See all</Text>
+									<View style={styles.sectionHeaderContainer}>
+										<Text style={styles.sectionHeader}>Latest Trip</Text>
+										<FlatList
+											data={[{ id: 1 }, { id: 2 }]}
+											numColumns={3}
+											columnWrapperStyle={{
+												justifyContent: 'space-between',
+												gap: 10,
+											}}
+											keyExtractor={(item) => `${item.id}`}
+											renderItem={renderItem}
+											style={{ marginTop: 12 }}
+										/>
+										<View
+											style={{
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+												alignItems: 'center',
+												paddingVertical: 5,
+											}}
+										>
+											<Text style={styles.sectionHeader}>Recent Bookings</Text>
+											<Link href="/bookings">
+												<Text style={styles.transactionText}>See all</Text>
+											</Link>
+										</View>
+									</View>
+								</>
+							)}
+							showsVerticalScrollIndicator={false}
+							// showsHorizontalScrollIndicator={false}
+							data={[{ id: 1 }, { id: 2 }]}
+							renderItem={({ item }) => (
+								<View>
+									<Text>{item.id}</Text>
 								</View>
-							</View>
-						</>
-					)}
-					showsVerticalScrollIndicator={false}
-					// showsHorizontalScrollIndicator={false}
-					data={transactions}
-					renderItem={({ item }) => <Transaction item={item} />}
-				/>
-			</View>
-		</SafeAreaView>
+							)}
+						/>
+					</View>
+				</SafeAreaView>
+			)}
+		</>
 	);
 }
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

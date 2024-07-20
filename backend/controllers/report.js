@@ -26,7 +26,14 @@ export const getReports = async (req, res) => {
 export const getReport = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const reportResult = await Report.findById(id).populate('userId');
+		const reportResult = await Report.findById(id).populate({
+			path: 'userId',
+			select: 'email name phone rank',
+		});
+
+		if (!reportResult) {
+			return res.status(404).json({ message: 'Report not found' });
+		}
 		res.status(201).json(reportResult);
 	} catch (error) {
 		res.status(500).json({ error: error.message });

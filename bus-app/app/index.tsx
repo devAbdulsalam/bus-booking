@@ -44,10 +44,11 @@ const Welcome = () => {
 	const [step, setStep] = useState(1);
 	const { session } = useAuth();
 	useEffect(() => {
+		console.log(session);
 		if (session) {
 			router.push('/(app)/');
 		}
-	}, []);
+	}, [session]);
 
 
 	const handleNext = () => {
