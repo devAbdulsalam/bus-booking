@@ -29,10 +29,10 @@ const ProgressPoints = ({ step }: any) => {
 						height: 10,
 						width: 10 + 7 * Number(step === index),
 						borderRadius: 5,
-						borderColor: step === index ? 'black' : 'black',
+						borderColor: step === index ? 'green' : 'green',
 						borderWidth: 1,
 						marginHorizontal: 5,
-						backgroundColor: step === index ? 'black' : 'white',
+						backgroundColor: step === index ? 'green' : 'white',
 					}}
 				/>
 			))}
@@ -50,7 +50,6 @@ const Welcome = () => {
 		}
 	}, [session]);
 
-
 	const handleNext = () => {
 		if (step < 3) {
 			setStep(step + 1);
@@ -65,9 +64,9 @@ const Welcome = () => {
 	};
 
 	const steps = [
-		'Track your health with our special bracelet with sensor that tracks your heart rate and oxygen pulse',
-		'Enjoy converting your prescriptions to digital format.',
-		'Search about doctor, lab or product easily using voice or scanning.',
+		'Book your bus tickets with ease and convenience.',
+		'Easily check the availability of buses at your desired pickup points.',
+		'Book, pay, and confirm your seat with just a few clicks.',
 	];
 
 	return (
@@ -75,7 +74,7 @@ const Welcome = () => {
 			<ImageBackground
 				source={require('../assets/logo.jpg')}
 				style={styles.imageBg}
-				resizeMode="cover"
+				resizeMode="contain"
 			>
 				<Text style={styles.skip} onPress={handleSkip}>
 					Skip
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 	nextIcon: {
-		backgroundColor: colors.BlueI,
+		backgroundColor: colors.Green,
 		padding: 10,
 		borderRadius: 50,
 	},
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: responsiveFontSize(16),
-		color: colors.BlueI,
+		color: colors.Green,
 		fontFamily: 'Cairo-Medium',
 		textAlign: 'center',
 	},

@@ -111,6 +111,16 @@ export const fetchSearchTrip = async (props) => {
 		},
 	};
 	try {
+		// const response = await fetch(
+		// 	`/buses/search?from=${from}&to=${to}&date=${date}`,
+		// 	{
+		// 		method: 'GET',
+		// 		headers: {
+		// 			Authorization: `Bearer ${token}`, 
+		// 		},
+		// 	}
+		// );
+
 		const data = await axios
 			.get(`${apiUrl}/buses`, config)
 			.then((res) => res.data);

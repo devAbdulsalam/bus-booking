@@ -30,7 +30,7 @@ const Button = ({
 				//   : [colors.White, colors.White]
 				//   color: disabled ? colors.GreyII : colors.BlueI,
 				color === 'default' && !disabled
-					? [colors.BlueI, colors.BlueII]
+					? [colors.Green, colors.LightSeaGreen]
 					: disabled
 					? [colors.GreyII, colors.GreyII]
 					: [colors.White, colors.White]
@@ -40,7 +40,7 @@ const Button = ({
 			style={[
 				styles.gradientButton,
 				{
-					borderColor: color === 'default' ? null : colors.BlueI,
+					borderColor: color === 'default' ? null : colors.Green,
 					borderWidth: color === 'default' ? null : 1,
 				},
 			]}
@@ -48,7 +48,7 @@ const Button = ({
 			<Text
 				style={[
 					styles.buttonText,
-					{ color: color === 'default' ? colors.White : colors.BlueI },
+					{ color: color === 'default' ? colors.White : colors.Green },
 				]}
 			>
 				{buttonText}

@@ -25,7 +25,7 @@ const sendreport = () => {
 	const [message, setMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [location, setLocation] = useState(null);
-	const [address, setAddress] = useState(null);
+	const [address, setAddress] = useState('');
 
 	Location.setGoogleApiKey('AIzaSyD5GUOMMrDY5Ml8JOQ5j7z7p9f8GaGCDBg');
 	const { token } = useAuth();
@@ -112,6 +112,10 @@ const sendreport = () => {
 					}
 				>
 					<View>
+						<Text>Address</Text>
+						<TextInput value={address} onChangeText={setAddress} />
+					</View>
+					<View>
 						<Text>Message</Text>
 						<TextInput value={message} onChangeText={setMessage} />
 					</View>
@@ -127,6 +131,29 @@ const sendreport = () => {
 export default sendreport;
 
 const styles = StyleSheet.create({
+	inputContainer: {
+		marginBottom: 5,
+	},
+	label: {
+		fontSize: 18,
+		fontWeight: 'semibold',
+		padding: 5,
+	},
+	input: {
+		fontSize: 16,
+		fontWeight: '500',
+		paddingLeft: 12,
+		paddingRight: 12,
+		height: 48,
+		borderRadius: 12,
+		width: '100%',
+		backgroundColor: 'white',
+	},
+	errorText: {
+		color: 'red',
+		fontSize: 10,
+		padding: 5,
+	},
 	button: {
 		backgroundColor: 'green',
 		padding: 10,

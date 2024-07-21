@@ -63,6 +63,16 @@ const styles = StyleSheet.create({
 		color: '#fff',
 		fontWeight: 'bold',
 	},
+	button: {
+		backgroundColor: 'green',
+		padding: 10,
+		borderRadius: 8,
+		alignItems: 'center',
+	},
+	buttonText: {
+		color: '#fff',
+		fontWeight: 'bold',
+	},
 });
 
 export default tripInfo;

@@ -5,6 +5,8 @@ import { useAuth } from '@/context/authContext';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
+import SafeScrollView from '@/components/SafeScrollView';
+import Header from '@/components/Header';
 const reportDetails = () => {
 	const { token, isAdmin } = useAuth();
 	const { id } = useLocalSearchParams();
@@ -14,8 +16,11 @@ const reportDetails = () => {
 	});
 
 	return (
-		<View>
-			<Text>Report-details</Text>
+		<SafeScrollView
+			header={
+				<Header title="Report Detail" backButtonHandler={() => router.back()} />
+			}
+		>
 			{isLoading && <Loader />}
 			{error && <Text>Error: {error.message}</Text>}
 			{data && (
@@ -41,7 +46,7 @@ const reportDetails = () => {
 					)}
 				</View>
 			)}
-		</View>
+		</SafeScrollView>
 	);
 };
 

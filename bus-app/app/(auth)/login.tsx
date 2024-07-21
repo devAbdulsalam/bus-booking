@@ -10,6 +10,7 @@ import {
 	Text,
 	Image,
 	Platform,
+	Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,20 +19,32 @@ import { LOG_IN_SCREEN } from '@/constants/Data';
 import PrimaryButton from '@/components/SubmitButton';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
-import { Link, router } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useAuth } from '@/context/authContext';
 import Loader from '@/components/LoadingModal';
 import { getAxiosError } from '@/hooks/getError';
+import { colors } from '@/AppStyles';
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const LoginScreen = () => {
 	const theme = useTheme();
 	const { height } = useWindowDimensions();
-	const [email, onChangeEmail] = useState('');
-	const [password, onChangePassword] = useState('');
+	const { email: em, password: pass } = useLocalSearchParams();
+	const [email, onChangeEmail] = useState<string | undefined>(() => {
+		if (Array.isArray(em)) {
+			return em[0] || undefined;
+		}
+		return em || undefined;
+	});
+	const [password, onChangePassword] = useState<string | undefined>(() => {
+		if (Array.isArray(pass)) {
+			return pass[0] || undefined;
+		}
+		return pass || undefined;
+	});
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isError, setIsError] = useState('');
@@ -118,7 +131,7 @@ const LoginScreen = () => {
 									style={{
 										fontSize: 40,
 										fontWeight: '800',
-										// color: COLORS.secondary,
+										color: colors.Green,
 									}}
 								>
 									{LOG_IN_SCREEN.title}
@@ -234,7 +247,7 @@ const LoginScreen = () => {
 									<Text style={{ color: 'black' }}>
 										Don't have an account?{' '}
 									</Text>
-									<Link href={'/register'} style={styles.textButton}>
+									<Link href={`/(auth)/register`} style={styles.textButton}>
 										Register
 									</Link>
 								</View>
@@ -353,7 +366,7 @@ const styles = StyleSheet.create({
 	textButton: {
 		alignSelf: 'center',
 		fontWeight: 'bold',
-		// color: COLORS.primary,
+		color: 'blue',
 		marginVertical: 10,
 	},
 });

@@ -22,7 +22,7 @@ const ForgetPassword = () => {
 	};
 
 	return (
-		<SafeScrollView header={<Header title="Forget Password" />}>
+		<SafeScrollView header={<Header title="Forget Password" backButtonHandler={() => router.back()}/>}>
 			<View style={styles.container}>
 				<InputField
 					label="Email"
