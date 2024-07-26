@@ -48,3 +48,25 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+For those complaining about your expo build being too big..
+
+You can try and manually set your jsEngine to hermes via the expo.android or expo.ios config object..
+
+<!-- {
+expo: {
+...
+android: {
+jsEngine: 'hermes',
+...
+},
+ios: {
+jsEngine: 'hermes',
+...
+}
+}
+} -->
+
+For development build or apk build builds meant for testing
+
+If you feel okay with it you can use it to make your production build
