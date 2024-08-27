@@ -101,6 +101,8 @@ export const fetchTrip = async (props) => {
 };
 export const fetchSearchTrip = async (props) => {
 	const { from, to, date, token } = props;
+
+	console.log(props);
 	// const config = {
 	// 	headers: {
 	// 		Authorization: `Bearer ${props?.token}`,

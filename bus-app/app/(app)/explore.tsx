@@ -69,6 +69,7 @@ export default function Explore() {
 											...styles.titleContainer,
 											width: '100%',
 											justifyContent: 'space-between',
+											alignItems: 'center',
 										}}
 									>
 										<Text style={styles.text}>Bus: {item?.bus?.name}</Text>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		padding: 6,
-		marginVertical: 10,
+		marginVertical: 5,
 		backgroundColor: '#fff',
 		borderRadius: 8,
 	},

@@ -67,8 +67,11 @@ export default function HomeScreen() {
 						// justifyContent: 'center',
 					}}
 				>
+					<View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 5}}>
+
 					<Text>From : {item.from}</Text>
 					<Text>To: {item.to}</Text>
+					</View>
 					<Text>Date: {dayjs(item.date).format('DD/MM/YYYY')}</Text>
 					<Text>Time: {dayjs(item.tripTime).format('HH:mm A')}</Text>
 				</View>
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
 	},
 	serviceItem: {
 		flex: 1,
-		padding: 8,
+		padding: 10,
 		marginVertical: 10,
 		marginHorizontal: 10,
 		borderRadius: 10,

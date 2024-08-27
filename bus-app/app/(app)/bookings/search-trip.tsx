@@ -6,17 +6,17 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
 import { router, useLocalSearchParams } from 'expo-router';
 import SafeFlatListView from '@/components/SafeFlatListView';
-import Header from '@/components/Header';
-import { Ionicons } from '@expo/vector-icons';
 import SearchHeader from '@/components/SearchHeader';
+import SearchCard from '@/components/SearchCard';
 const bookings = () => {
 	const { token } = useAuth();
 	const { date, from, to } = useLocalSearchParams();
 	const [showModal, setShowModal] = useState(false);
 	const props = { date, from, to, token };
 	// console.log(props);
+	const getDate = new Date();
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['trips', date, from, to],
+		queryKey: ['trips', date, from, to, getDate],
 		queryFn: async () => fetchSearchTrip(props),
 	});
 
@@ -26,6 +26,9 @@ const bookings = () => {
 			params: { id },
 		});
 	};
+	if (data) {
+		console.log('datata', data);
+	}
 	if (error) {
 		console.log(error);
 		return <Text>Something went wrong</Text>;
@@ -64,7 +67,11 @@ const bookings = () => {
 							<Text style={{ padding: 10, textAlign: 'center' }}>No data</Text>
 						)}
 					/>
-					{showModal && <Text>hello</Text>}
+					{showModal && (
+						<View>
+							<SearchCard />
+						</View>
+					)}
 				</SafeFlatListView>
 			)}
 		</>
