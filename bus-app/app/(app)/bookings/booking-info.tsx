@@ -9,11 +9,11 @@ import SafeScrollView from '@/components/SafeScrollView';
 import Header from '@/components/Header';
 const bookingInfo = () => {
 	const { token } = useAuth();
-	const { from, to, price, date, bookedseat } = useLocalSearchParams();
+	const { from, to } = useLocalSearchParams();
 	const { id } = useLocalSearchParams();
 	const props = { token, id };
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['bookings'],
+		queryKey: ['bookings', id],
 		queryFn: async () => fetchBooking(props),
 	});
 
@@ -36,18 +36,21 @@ const bookingInfo = () => {
 					<View>
 						<Text>Ticket Info</Text>
 						<View>
-							<Text>From: {from}</Text>
-							<Text>To: {to}</Text>
-							<Text>Price: {price}</Text>
-							<Text>Date: {date}</Text>
-							<Text>Booked Seat(s): {bookedseat}</Text>
-							<Text>Total Price: {Number(bookedseat) * Number(price)}</Text>
+							<Text>From: {data?.from}</Text>
+							<Text>To: {data?.to}</Text>
+							<Text>Price: {data?.price}</Text>
+							<Text>Date: {data?.date}</Text>
+							<Text>Booked Seat(s): {data?.seat}</Text>
+							<Text>
+								Total Price: {Number(data?.seat) * Number(data?.price)}
+							</Text>
 						</View>
 					</View>
-
-					<Pressable style={styles.button} onPress={handlePress}>
-						<Text style={styles.buttonText}>Book now</Text>
-					</Pressable>
+					{data.status !== 'COMPLETED' && (
+						<Pressable style={styles.button} onPress={handlePress}>
+							<Text style={styles.buttonText}>Book now</Text>
+						</Pressable>
+					)}
 				</SafeScrollView>
 			)}
 		</>

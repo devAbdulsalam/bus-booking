@@ -52,7 +52,7 @@ export const fetchBookings = async (accessToken) => {
 export const fetchBooking = async (props) => {
 	const config = {
 		headers: {
-			Authorization: `Bearer ${props?.accessToken}`,
+			Authorization: `Bearer ${props?.token}`,
 		},
 	};
 	try {
@@ -100,32 +100,35 @@ export const fetchTrip = async (props) => {
 	}
 };
 export const fetchSearchTrip = async (props) => {
-	const config = {
-		headers: {
-			Authorization: `Bearer ${props?.accessToken}`,
-		},
-		params: {
-			date: props.date,
-			from: props.from,
-			to: props.to,
-		},
-	};
+	const { from, to, date, token } = props;
+	// const config = {
+	// 	headers: {
+	// 		Authorization: `Bearer ${props?.token}`,
+	// 	},
+	// 	params: {
+	// 		date: props.date,
+	// 		from: props.from,
+	// 		to: props.to,
+	// 	},
+	// };
 	try {
-		// const response = await fetch(
-		// 	`/buses/search?from=${from}&to=${to}&date=${date}`,
-		// 	{
-		// 		method: 'GET',
-		// 		headers: {
-		// 			Authorization: `Bearer ${token}`, 
-		// 		},
-		// 	}
-		// );
+		const response = await axios.get(
+			`/buses/search?from=${from}&to=${to}&date=${date}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 
-		const data = await axios
-			.get(`${apiUrl}/buses`, config)
-			.then((res) => res.data);
-		console.log('fetch search trips data', data);
-		return data;
+		// const data = await axios
+		// 	.get(`${apiUrl}/buses/search`, config)
+		// 	.then((res) => res.data);
+		// console.log('fetch search trips res data', response.data);
+		// console.log('fetch search trips res', );
+		// console.log('fetch search trips data', data);
+		return response.data;
 	} catch (error) {
 		console.log(error?.message);
 		return error;
@@ -150,15 +153,14 @@ export const fetchReports = async (accessToken) => {
 export const fetchReport = async (props) => {
 	const config = {
 		headers: {
-			Authorization: `Bearer ${props?.accessToken}`,
+			Authorization: `Bearer ${props?.token}`,
 		},
 	};
-	console.log(i);
 	try {
 		const data = await axios
 			.get(`${apiUrl}/reports/${props.id}`, config)
 			.then((res) => res.data);
-		// console.log('fetchuser data', data);
+		console.log('fetchuser data', data);
 		return data;
 	} catch (error) {
 		console.log(error?.message);

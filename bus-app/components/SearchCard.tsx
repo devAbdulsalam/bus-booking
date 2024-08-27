@@ -21,12 +21,13 @@ const SearchCard = () => {
 		}
 	};
 	const handleSearch = () => {
+		const tripDate = selected.toLocaleString();
 		if (!from || !to || !selected) {
 			return;
 		}
 		router.navigate({
 			pathname: '/bookings/search-trip',
-			params: { from, to, tripDate: selected.toISOString() },
+			params: { from, to, date: tripDate },
 		});
 	};
 
@@ -68,7 +69,7 @@ const SearchCard = () => {
 				<DatePicker date={selected} setDate={setSelected} />
 			</View>
 			<Pressable style={styles.searchButton} onPress={handleSearch}>
-				<Ionicons name="search" size={24} color="white" />
+				<Ionicons name="search" size={18} color="white" />
 				<Text style={styles.searchButtonText}>Search</Text>
 			</Pressable>
 		</View>
@@ -111,7 +112,10 @@ const styles = StyleSheet.create({
 		backgroundColor: 'green',
 		padding: 10,
 		borderRadius: 8,
+		gap: 5,
+		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	searchButtonText: {
 		color: '#fff',

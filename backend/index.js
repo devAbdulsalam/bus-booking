@@ -10,6 +10,7 @@ import reportRoutes from './routes/report.js';
 import tripRoutes from './routes/trip.js';
 import paymentRoutes from './routes/payment.js';
 import healthRoutes from './routes/health.js';
+import walletRoutes from './routes/wallet.js';
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors());
 
 app.use('/', healthRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/wallet', walletRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/buses', busRoutes);
 app.use('/api/v1/trips', tripRoutes);

@@ -108,7 +108,18 @@ export const getUserDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;
 		const reports = await Report.find({ userId });
-		const trips = await Trip.find().limit(5);
+		// get current date and get 5 trips closer to the date
+		const currentDate = new Date();
+
+		const trips = await Trip.find({
+			date: {
+				$gte: currentDate,
+			},
+		})
+			.sort({
+				date: 1,
+			})
+			.limit(5);
 		let result;
 		if (req.user.role === 'ADMIN') {
 			result = await Booking.find().limit(10);

@@ -1,9 +1,10 @@
 import { StyleSheet, Text, SafeAreaView, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
 
 type DatePikerProps = {
-	date: Date;
+	date: Date | String;
 	setDate: any;
 };
 export const App = ({ date, setDate }: DatePikerProps) => {
@@ -13,7 +14,7 @@ export const App = ({ date, setDate }: DatePikerProps) => {
 	const onChange = (event: any, selectedDate: any) => {
 		const currentDate = selectedDate;
 		setShow(false);
-		setDate(currentDate.toLocaleString());
+		setDate(() => currentDate.toLocaleString());
 	};
 
 	const showMode = (currentMode: string) => {
@@ -27,7 +28,8 @@ export const App = ({ date, setDate }: DatePikerProps) => {
 	return (
 		<SafeAreaView>
 			<Pressable onPress={showDatepicker} style={styles.inputButton}>
-				<Text>{date.toDateString()}</Text>
+				{/* <Text>{dayjs(date).format('DD/MM/YYYY')}</Text> */}
+				<Text>{date.toLocaleString()}</Text>
 			</Pressable>
 			{show && (
 				<DateTimePicker
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderWidth: 1,
 		borderColor: 'black',
-		borderRadius: 4
+		borderRadius: 4,
 	},
 });
 

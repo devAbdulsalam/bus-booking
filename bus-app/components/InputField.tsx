@@ -37,7 +37,7 @@ const InputField = React.memo(
 				<Text
 					style={{
 						fontSize: responsiveFontSize(18),
-						fontFamily: 'Cairo-Regular',
+						// fontFamily: 'Cairo-Regular',
 						paddingBottom: 5,
 					}}
 				>
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		fontSize: responsiveFontSize(16),
-		fontFamily: 'Cairo-Regular',
 	},
 });
 

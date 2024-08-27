@@ -31,6 +31,8 @@ export const getBus = async (req, res) => {
 export const searchBuses = async (req, res) => {
 	const { from, to, date } = req.query;
 
+	console.log(req.query)
+
 	if (!from || !to || !date) {
 		return res
 			.status(400)

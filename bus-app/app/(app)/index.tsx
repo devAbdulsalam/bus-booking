@@ -9,6 +9,7 @@ import {
 	Image,
 	StyleSheet,
 	Platform,
+	StatusBar,
 	View,
 	Text,
 	FlatList,
@@ -21,6 +22,7 @@ import { useAuth } from '@/context/authContext';
 import Loader from '@/components/Loader';
 import SearchCard from '@/components/SearchCard';
 import Transaction from '@/components/Transaction';
+import dayjs from 'dayjs';
 
 export default function HomeScreen() {
 	const theme = useTheme();
@@ -33,7 +35,7 @@ export default function HomeScreen() {
 	if (error) {
 		return <Text>Error :</Text>;
 	}
-
+	// console.log('profile?.name', profile?.name);
 	if (!data) return null;
 	const handlePress = (id: string) => {
 		router.navigate({
@@ -67,8 +69,8 @@ export default function HomeScreen() {
 				>
 					<Text>From : {item.from}</Text>
 					<Text>To: {item.to}</Text>
-					<Text>Date: {item.date}</Text>
-					<Text>Time: {item.tripTime}</Text>
+					<Text>Date: {dayjs(item.date).format('DD/MM/YYYY')}</Text>
+					<Text>Time: {dayjs(item.tripTime).format('HH:mm A')}</Text>
 				</View>
 				<Text style={{ ...styles.serviceText }}>Price: {item.price}</Text>
 			</TouchableOpacity>
@@ -90,9 +92,7 @@ export default function HomeScreen() {
 						>
 							<Image
 								source={{
-									uri:
-										profile?.avatar?.url ||
-										`https://ui-avatars.com/api/?name=${profile?.name}`,
+									uri: `https://ui-avatars.com/api/?name=${profile?.name}`,
 								}}
 								style={{
 									height: 48,
@@ -104,7 +104,7 @@ export default function HomeScreen() {
 								}}
 							/>
 						</Pressable>
-						<Link href="/">
+						<Link href="/(app)/">
 							<FontAwesome name="bell-o" size={24} color="black" />
 						</Link>
 					</View>
@@ -122,14 +122,12 @@ export default function HomeScreen() {
 										<Text style={styles.sectionHeader}>Latest Trip</Text>
 										<FlatList
 											data={data?.trips}
-											numColumns={3}
-											columnWrapperStyle={{
-												justifyContent: 'space-between',
-												gap: 10,
-											}}
+											horizontal
+											pagingEnabled
+											// showsHorizontalScrollIndicator={false}
 											keyExtractor={(item) => `${item._id}`}
 											renderItem={renderItem}
-											style={{ marginTop: 12 }}
+											style={{ marginTop: 12, gap: 5 }}
 										/>
 										<View
 											style={{
@@ -161,7 +159,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'white',
+		backgroundColor: 'ghostwhite',
 		// paddingTop: StatusBar.currentHeight,
 	},
 	header: {
@@ -170,7 +168,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingHorizontal: 16,
 		backgroundColor: 'white',
-		// paddingTop: StatusBar.currentHeight,
+		paddingTop: StatusBar.currentHeight,
 	},
 	headerImage: {
 		height: 24,
@@ -220,13 +218,14 @@ const styles = StyleSheet.create({
 	},
 	serviceItem: {
 		flex: 1,
-		padding: 5,
+		padding: 8,
 		marginVertical: 10,
+		marginHorizontal: 10,
 		borderRadius: 10,
 		backgroundColor: 'white',
 		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'center',
+		// justifyContent: 'center',
+		// alignItems: 'center',
 		shadowColor: 'white',
 		elevation: 1,
 		shadowOpacity: 0.5,

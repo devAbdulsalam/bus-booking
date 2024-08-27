@@ -2,7 +2,7 @@
 
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import {
 	responsiveFontSize,
 	colors,
@@ -10,25 +10,30 @@ import {
 	responsiveWidth,
 } from '../AppStyles';
 
-
 type headerProps = {
-	title: string;
-	backButtonHandler: () => void;
+	title: string,
+	backButtonHandler: () => void,
+	pressHandler: () => void,
 };
 
-const Header = ({ title, backButtonHandler }: headerProps) => {
+const Header = ({ title, backButtonHandler, pressHandler }: headerProps) => {
 	return (
 		<View style={styles.header}>
-			{backButtonHandler && (
-				<TouchableOpacity onPress={backButtonHandler} style={styles.iconButton}>
-					<MaterialIcons
-						name="keyboard-arrow-left"
-						size={responsiveFontSize(30)}
-						color={colors.Black}
-					/>
-				</TouchableOpacity>
-			)}
+			<TouchableOpacity onPress={backButtonHandler} style={styles.iconButton}>
+				<MaterialIcons
+					name="keyboard-arrow-left"
+					size={responsiveFontSize(30)}
+					color={colors.Black}
+				/>
+			</TouchableOpacity>
 			<Text style={styles.headerTitle}>{title}</Text>
+			<TouchableOpacity onPress={pressHandler} style={styles.rightButton}>
+				<Ionicons
+					name="search"
+					size={responsiveFontSize(30)}
+					color={colors.Black}
+				/>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -48,6 +53,11 @@ const styles = StyleSheet.create({
 	iconButton: {
 		position: 'absolute',
 		left: responsiveWidth(0),
+	},
+	rightButton: {
+		position: 'absolute',
+		right: responsiveWidth(2),
+		padding: 2,
 	},
 });
 

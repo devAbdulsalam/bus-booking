@@ -5,14 +5,16 @@ import { useAuth } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
 import { router, useLocalSearchParams } from 'expo-router';
-import SafeScrollView from '@/components/SafeScrollView';
+import SafeFlatListView from '@/components/SafeFlatListView';
 import Header from '@/components/Header';
 import { Ionicons } from '@expo/vector-icons';
+import SearchHeader from '@/components/SearchHeader';
 const bookings = () => {
 	const { token } = useAuth();
 	const { date, from, to } = useLocalSearchParams();
 	const [showModal, setShowModal] = useState(false);
 	const props = { date, from, to, token };
+	// console.log(props);
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['trips', date, from, to],
 		queryFn: async () => fetchSearchTrip(props),
@@ -29,27 +31,22 @@ const bookings = () => {
 		return <Text>Something went wrong</Text>;
 	}
 
-	const SearchHeader = () => {
-		return (
-			<View style={{ flexDirection: 'row' }}>
-				<Header
-					title="Search Bookings"
-					backButtonHandler={() => router.back()}
-				/>
-				<Pressable onPress={() => setShowModal(!showModal)}>
-					<Ionicons name="search" size={24} color="black" />
-				</Pressable>
-			</View>
-		);
-	};
 	return (
 		<>
 			{isLoading ? (
 				<Loader />
 			) : (
-				<SafeScrollView header={<SearchHeader />}>
+				<SafeFlatListView
+					header={
+						<SearchHeader
+							title="Search"
+							backButtonHandler={() => router.back()}
+							pressHandler={() => setShowModal(!showModal)}
+						/>
+					}
+				>
 					<FlatList
-						keyExtractor={(item) => item._id.toString()}
+						keyExtractor={(item) => item?._id.toString()}
 						showsVerticalScrollIndicator={false}
 						data={data}
 						renderItem={({ item }) => (
@@ -63,10 +60,12 @@ const bookings = () => {
 								<Text>Status: {item.status}</Text>
 							</Pressable>
 						)}
-						ListEmptyComponent={() => <Text>No data</Text>}
+						ListEmptyComponent={() => (
+							<Text style={{ padding: 10, textAlign: 'center' }}>No data</Text>
+						)}
 					/>
 					{showModal && <Text>hello</Text>}
-				</SafeScrollView>
+				</SafeFlatListView>
 			)}
 		</>
 	);

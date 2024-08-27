@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+	wallet: { type: Number, required: true, default: 100 },
 	email: { type: String, required: true, unique: true },
 	name: { type: String, required: true },
 	phone: { type: String, required: true },

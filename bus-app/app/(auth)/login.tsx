@@ -71,7 +71,7 @@ const LoginScreen = () => {
 		setIsLoading(true);
 		try {
 			const { data } = await axios.post(`${apiUrl}/users/login`, {
-				email,
+				email: email.toLocaleLowerCase(),
 				password,
 			});
 			if (data) {

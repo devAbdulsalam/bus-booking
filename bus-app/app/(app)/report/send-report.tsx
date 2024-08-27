@@ -18,82 +18,48 @@ import { useAuth } from '@/context/authContext';
 import SafeScrollView from '@/components/SafeScrollView';
 import Header from '@/components/Header';
 import Loader from '@/components/Loader';
+import { getAxiosError } from '@/hooks/getError';
+import { useQueryClient } from '@tanstack/react-query';
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const sendreport = () => {
 	const [image, setImage] = useState(null);
 	const [message, setMessage] = useState('');
+	const [address, setAddress] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [location, setLocation] = useState(null);
-	const [address, setAddress] = useState(null);
-
-	Location.setGoogleApiKey('AIzaSyD5GUOMMrDY5Ml8JOQ5j7z7p9f8GaGCDBg');
 	const { token } = useAuth();
-	const getPremissions = async () => {
-		let { status } = await Location.requestForegroundPermissionsAsync();
-		if (status !== 'granted') {
-			Alert.alert(
-				'Location access denied',
-				'Permission to access location was denied',
-				[
-					{
-						text: 'cancel',
-						onPress: () => {
-							console.log('cancel');
-						},
-					},
-					{
-						text: 'ok',
-						onPress: () => {
-							console.log('cancel');
-						},
-					},
-				]
-			);
-			return router.navigate('/(app)');
-		}
-		const currentLocation = await Location.getCurrentPositionAsync({});
-		const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
-			longitude: currentLocation.coords.longitude,
-			latitude: currentLocation.coords.latitude,
-		});
+	const queryClient = useQueryClient();
 
-		// console.log('Location:', currentLocation);
-		// console.log(
-		// 	'Reverse Geocoded:',
-		// 	reverseGeocodedAddress[0]?.formattedAddress
-		// );
-		setLocation(currentLocation);
-		setAddress(reverseGeocodedAddress[0]?.formattedAddress);
-	};
 	const handelSendReport = async () => {
 		try {
+			if (!message) {
+				return Alert.alert('Error', 'Please enter a message');
+			}
+			if (!address) {
+				return Alert.alert('Error', 'Please enter a message');
+			}
 			setIsLoading(true);
-			const description = `longitude:${location?.coords?.longitude} and latitude:${location?.coords?.latitude}`;
-			const latitude = location?.coords?.latitude;
-			const longitude = location?.coords?.longitude;
 			const option = {
-				latitude,
-				longitude,
-				image,
 				address,
-				description,
 				message,
 			};
+			console.log(option);
 			const { data } = await axios.post(`${apiUrl}/reports`, option, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			});
 			if (data) {
+				queryClient.invalidateQueries({ queryKey: ['reports'] });
 				Alert.alert('Report sent', 'Incident reported successfully');
 				setImage(null);
-				router.replace('/(app)');
+				router.replace('/(app)/reports');
 			}
 		} catch (error) {
 			console.log(error);
-			Alert.alert('Something went wrong', 'Something went wrong');
-			router.replace('/(app)');
+			const message = getAxiosError(error);
+			Alert.alert('Something went wrong', message || 'Something went wrong');
+			router.replace('/(app)/reports');
 		} finally {
 			setIsLoading(false);
 		}
@@ -112,8 +78,24 @@ const sendreport = () => {
 					}
 				>
 					<View>
-						<Text>Message</Text>
-						<TextInput value={message} onChangeText={setMessage} />
+						<Text style={styles.lable}>Address</Text>
+						<TextInput
+							value={address}
+							onChangeText={setAddress}
+							placeholder="Kano nigeria"
+							style={styles.textInput}
+						/>
+					</View>
+					<View>
+						<Text style={styles.lable}>Message</Text>
+						<TextInput
+							value={message}
+							multiline={true}
+							numberOfLines={6}
+							onChangeText={setMessage}
+							placeholder="Enter a message"
+							style={styles.textArea}
+						/>
 					</View>
 					<Pressable style={styles.button} onPress={handelSendReport}>
 						<Text style={styles.buttonText}>Send Report</Text>
@@ -129,6 +111,7 @@ export default sendreport;
 const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'green',
+		marginTop: 10,
 		padding: 10,
 		borderRadius: 8,
 		alignItems: 'center',
@@ -136,5 +119,25 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: '#fff',
 		fontWeight: 'bold',
+	},
+	lable: {
+		marginVertical: 10,
+		marginHorizontal: 10,
+	},
+	textInput: {
+		borderWidth: 1,
+		padding: 5,
+		borderRadius: 3,
+		borderColor: 'ghostWhite',
+	},
+	textArea: {
+		flex: 1,
+		textAlignVertical: 'top',
+		justifyContent: 'flex-start',
+		height: 150,
+		borderWidth: 1,
+		padding: 5,
+		borderRadius: 3,
+		borderColor: 'ghostWhite',
 	},
 });

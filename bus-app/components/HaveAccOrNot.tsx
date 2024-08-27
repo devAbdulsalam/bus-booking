@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: colors.BlueI,
-		fontFamily: 'Cairo-Regular',
+		// fontFamily: 'Cairo-Regular',
 		lineHeight: 30,
 		alignSelf: 'center',
 		fontSize: responsiveFontSize(16),

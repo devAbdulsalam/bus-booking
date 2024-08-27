@@ -14,11 +14,13 @@ const reportDetails = () => {
 		queryKey: ['reports', id],
 		queryFn: async () => fetchReport({ token, id }),
 	});
-
 	return (
 		<SafeScrollView
 			header={
-				<Header title="Report Detail" backButtonHandler={() => router.back()} />
+				<Header
+					title="Report Detail"
+					backButtonHandler={() => router.navigate('/reports')}
+				/>
 			}
 		>
 			{isLoading && <Loader />}
@@ -36,11 +38,11 @@ const reportDetails = () => {
 							</View>
 						</View>
 					)}
-					<Text>Report address: {data.address}</Text>
-					<Text>Report message: {data.message}</Text>
-					<Text>Report status: {data.status}</Text>
+					<Text>Report address: {data?.address}</Text>
+					<Text>Report message: {data?.message}</Text>
+					<Text>Report status: {data?.status}</Text>
 					{isAdmin && (
-						<Pressable onPress={() => router.push(`/report/${data._id}/edit`)}>
+						<Pressable onPress={() => router.push(`/report/${data?._id}/edit`)}>
 							<Text>Update Report status</Text>
 						</Pressable>
 					)}

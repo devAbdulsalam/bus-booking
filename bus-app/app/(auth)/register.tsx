@@ -45,7 +45,8 @@ const registerScreen = () => {
 	const { session, setSesion, setToken, setProfile } = useAuth();
 
 	// regId patterns
-	const regIdPattern = /^UG\d{2}\/[A-Z]{3,4}\/\d{4}$/;
+	const regIdPattern = /^[a-z]{2}\/\d{2}\/[a-z]{3,4}\/\d{4}$/i;
+
 	const validateRegId = (id: string) => {
 		return regIdPattern.test(id);
 	};

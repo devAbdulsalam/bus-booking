@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: responsiveFontSize(16),
 		color: colors.Green,
-		fontFamily: 'Cairo-Medium',
 		textAlign: 'center',
 	},
 });

@@ -13,7 +13,7 @@ type transactionProps = {
 };
 const Transaction = ({ item }: transactionProps) => {
 	const theme = useTheme();
-	console.log(item);
+	// console.log(item);
 	const getStatusColor = (status: string) => {
 		switch (status) {
 			case 'CONFIRMED':
@@ -21,7 +21,7 @@ const Transaction = ({ item }: transactionProps) => {
 			case 'COMPLETED':
 				return 'green';
 			case 'PENDING':
-				return 'yellow';
+				return 'orange';
 			default:
 				return 'red';
 		}
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		borderRadius: 8,
-		// backgroundColor: 'white',
+		backgroundColor: 'white',
 		shadowColor: 'white',
 		elevation: 5,
 		shadowOpacity: 0.8,

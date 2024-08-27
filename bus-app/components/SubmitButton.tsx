@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
 		color: colors.White,
 		fontSize: responsiveFontSize(16),
 		textAlign: 'center',
-		fontFamily: 'Cairo-SemiBold',
 	},
 });
 

@@ -106,7 +106,7 @@ const sendreport = () => {
 				<SafeScrollView
 					header={
 						<Header
-							title="Send Report"
+							title="Create trip"
 							backButtonHandler={() => router.back()}
 						/>
 					}
@@ -116,7 +116,7 @@ const sendreport = () => {
 						<TextInput value={message} onChangeText={setMessage} />
 					</View>
 					<Pressable style={styles.button} onPress={handelSendReport}>
-						<Text style={styles.buttonText}>Send Report</Text>
+						<Text style={styles.buttonText}>Create trip</Text>
 					</Pressable>
 				</SafeScrollView>
 			)}

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 		fontSize: responsiveFontSize(30),
 		textAlign: 'center',
 		color: colors.BlueI,
-		fontFamily: 'Cairo-Medium',
+		// fontFamily: 'Cairo-Medium',
 		marginBottom: responsiveHeight(20),
 	},
 });
