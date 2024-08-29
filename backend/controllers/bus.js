@@ -1,4 +1,5 @@
 import Bus from '../models/Bus.js';
+import Trip from '../models/Trip.js';
 
 export const createBus = async (req, res) => {
 	const { tripTime, seatCapacity, name } = req.body;
@@ -31,8 +32,6 @@ export const getBus = async (req, res) => {
 export const searchBuses = async (req, res) => {
 	const { from, to, date } = req.query;
 
-	console.log(req.query)
-
 	if (!from || !to || !date) {
 		return res
 			.status(400)
@@ -51,12 +50,6 @@ export const searchBuses = async (req, res) => {
 		})
 			.populate('bus')
 			.lean();
-
-		if (!result.length) {
-			return res
-				.status(404)
-				.json({ message: 'No buses found for the given criteria.' });
-		}
 
 		res.json(result);
 	} catch (error) {

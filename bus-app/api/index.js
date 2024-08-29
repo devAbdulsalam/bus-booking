@@ -102,7 +102,7 @@ export const fetchTrip = async (props) => {
 export const fetchSearchTrip = async (props) => {
 	const { from, to, date, token } = props;
 
-	console.log(props);
+	// console.log(props);
 	// const config = {
 	// 	headers: {
 	// 		Authorization: `Bearer ${props?.token}`,
@@ -113,9 +113,14 @@ export const fetchSearchTrip = async (props) => {
 	// 		to: props.to,
 	// 	},
 	// };
+	// http://localhost:5000/api/v1/buses/search?from=University&to=Kano&date=2025-07-06
+
+	const dateString = new Date(date);
+	const formattedDate = dateString.toISOString().split('T')[0];
+
 	try {
 		const response = await axios.get(
-			`/buses/search?from=${from}&to=${to}&date=${date}`,
+			`/buses/search?from=${from}&to=${to}&date=${formattedDate}`,
 			{
 				method: 'GET',
 				headers: {
@@ -127,10 +132,10 @@ export const fetchSearchTrip = async (props) => {
 		// const data = await axios
 		// 	.get(`${apiUrl}/buses/search`, config)
 		// 	.then((res) => res.data);
-		// console.log('fetch search trips res data', response.data);
+		console.log('fetch search trips res data', response.data);
 		// console.log('fetch search trips res', );
 		// console.log('fetch search trips data', data);
-		return response.data;
+		return data;
 	} catch (error) {
 		console.log(error?.message);
 		return error;

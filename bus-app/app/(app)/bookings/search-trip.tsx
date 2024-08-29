@@ -26,13 +26,13 @@ const bookings = () => {
 			params: { id },
 		});
 	};
-	if (data) {
-		console.log('datata', data);
-	}
-	if (error) {
-		console.log(error);
-		return <Text>Something went wrong</Text>;
-	}
+	// if (data) {
+	// 	console.log('datata', data);
+	// }
+	// if (error) {
+	// 	console.log(error);
+	// 	return <Text>Something went wrong</Text>;
+	// }
 
 	return (
 		<>

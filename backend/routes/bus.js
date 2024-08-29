@@ -13,7 +13,8 @@ import {
 import auth, { verifyPermission } from '../middlewares/auth.js';
 
 router.get('/search', searchBuses);
-router.get('/', auth, getBuses);
+router.get('/', getBuses);
+// router.get('/', auth, getBuses);
 router.get('/:id', auth, getBus);
 router.post('/', auth, verifyPermission(['ADMIN']), createBus);
 router.put('/', auth, updateBus);
