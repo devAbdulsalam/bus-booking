@@ -177,7 +177,7 @@ export const fetchReport = async (props) => {
 export const fetchTransactions = async (props) => {
 	const config = {
 		headers: {
-			Authorization: `Bearer ${props?.accessToken}`,
+			Authorization: `Bearer ${props?.accessToken || props?.token}`,
 		},
 	};
 	try {
