@@ -73,5 +73,6 @@ If you feel okay with it you can use it to make your production build
 
 build
 
-https://docs.expo.dev/build-reference/apk/
 eas build -p android --profile preview
+
+https://docs.expo.dev/build-reference/apk/
