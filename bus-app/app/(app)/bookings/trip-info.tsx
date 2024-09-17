@@ -5,6 +5,8 @@ import { useAuth } from '@/context/authContext';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
+import SafeScrollView from '@/components/SafeScrollView';
+import Header from '@/components/Header';
 const tripInfo = () => {
 	const { token, isAdmin } = useAuth();
 	const { id } = useLocalSearchParams();
@@ -20,35 +22,35 @@ const tripInfo = () => {
 		});
 	};
 	return (
-		<View>
-			<Text>Trip info</Text>
-			{isLoading && <Loader />}
-			{data && (
-				<View>
-					{isAdmin && (
-						<View>
-							<Text>Trip Info</Text>
-							<View>
-								<Text>From: {data.from}</Text>
-								<Text>To: {data.to}</Text>
-								<Text>Price: {data.price}</Text>
-								<Text>Date: {data.date}</Text>
-								<Text>Available Seat: {data.seat}</Text>
-							</View>
+		<>
+			<SafeScrollView
+				header={
+					<Header title="Trip info" backButtonHandler={() => router.back()} />
+				}
+			>
+				{isLoading && <Loader />}
+				{data && (
+					<View>
+						<View style={{ padding: 10 }}>
+							<Text style={styles.text}>From: {data.from}</Text>
+							<Text style={styles.price}>To: {data.to}</Text>
+							<Text style={styles.text}>Price: {data.price}</Text>
+							<Text style={styles.text}>Date: {data.date}</Text>
+							<Text style={styles.text}>Available Seat: {data.seat}</Text>
 						</View>
-					)}
-					{isAdmin ? (
-						<Pressable onPress={handlePress} style={styles.button}>
-							<Text style={styles.buttonText}>Book trip</Text>
-						</Pressable>
-					) : (
-						<Pressable style={styles.button}>
-							<Text style={styles.buttonText}>Update trip</Text>
-						</Pressable>
-					)}
-				</View>
-			)}
-		</View>
+						{!isAdmin ? (
+							<Pressable onPress={handlePress} style={styles.button}>
+								<Text style={styles.buttonText}>Book trip</Text>
+							</Pressable>
+						) : (
+							<Pressable style={styles.button}>
+								<Text style={styles.buttonText}>Update trip</Text>
+							</Pressable>
+						)}
+					</View>
+				)}
+			</SafeScrollView>
+		</>
 	);
 };
 
@@ -59,15 +61,19 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: 'center',
 	},
-	buttonText: {
-		color: '#fff',
+	sectionHeader: {
+		fontSize: 20,
 		fontWeight: 'bold',
 	},
-	button: {
-		backgroundColor: 'green',
-		padding: 10,
-		borderRadius: 8,
-		alignItems: 'center',
+	price: {
+		fontSize: 16,
+		fontWeight: 'bold',
+		marginBottom: 16,
+	},
+	text: {
+		fontSize: 12,
+		fontWeight: 'bold',
+		marginBottom: 4,
 	},
 	buttonText: {
 		color: '#fff',

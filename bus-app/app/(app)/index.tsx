@@ -45,7 +45,7 @@ export default function HomeScreen() {
 	};
 	const handleTripPress = (id: string) => {
 		router.navigate({
-			pathname: '/bookings/booking-info',
+			pathname: '/bookings/trip-info',
 			params: { id },
 		});
 	};

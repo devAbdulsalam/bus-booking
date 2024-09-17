@@ -71,7 +71,7 @@ const registerScreen = () => {
 			return setIsError('Email is required');
 		}
 		if (!isValid) {
-			return setIsError('Invalid Registration ID');
+			return setIsError('Reg: UG/18/COMS/1051');
 		}
 		if (!password) {
 			return setIsError('Password is required');
@@ -247,7 +247,7 @@ const registerScreen = () => {
 										style={{ position: 'relative', width: '100%' }}
 									>
 										<TextInput
-											placeholder={`Enter your ${rank} id.`}
+											placeholder={`UG/18/COMS/1051`}
 											style={[
 												{
 													fontSize: 16,
