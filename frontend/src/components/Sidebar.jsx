@@ -10,7 +10,7 @@ import logo from '../assets/logo.jpg';
 const Sidebar = ({ sideMenu, setSideMenu }) => {
 	const navigate = useNavigate();
 	const [nav, setNav] = useState(null);
-	const {user, setUser, setToken } = useContext(AuthContext);
+	const { user, setUser, setToken } = useContext(AuthContext);
 	const [isLogoutModal, setIsLogoutModal] = useState(false);
 	const handleNav = (number) => {
 		nav !== number ? setNav(number) : setNav(null);
@@ -192,31 +192,30 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 										</svg>
 									</span>
 								</a>
-								{user?.user?.role === 'ADMIN' && (
-									<>
-										{nav === 1 && (
-											<ul className={`pl-[42px] pr-[20px] pb-3`}>
-												<li>
-													<NavLink
-														to={'/buses'}
-														onClick={handleSideBar}
-														className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
-													>
-														Buses
-													</NavLink>
-												</li>
-												<li>
-													<NavLink
-														to={'/add-bus'}
-														onClick={handleSideBar}
-														className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
-													>
-														Add Bus
-													</NavLink>
-												</li>
-											</ul>
+
+								{nav === 1 && (
+									<ul className={`pl-[42px] pr-[20px] pb-3`}>
+										<li>
+											<NavLink
+												to={'/buses'}
+												onClick={handleSideBar}
+												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+											>
+												Buses
+											</NavLink>
+										</li>
+										{user?.user?.role === 'ADMIN' && (
+											<li>
+												<NavLink
+													to={'/add-bus'}
+													onClick={handleSideBar}
+													className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+												>
+													Add Bus
+												</NavLink>
+											</li>
 										)}
-									</>
+									</ul>
 								)}
 							</li>
 							<li>
@@ -292,9 +291,9 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 
 							<li>
 								<a
-									onClick={() => handleNav(1)}
+									onClick={() => handleNav(20)}
 									className={`${
-										nav == 1
+										nav == 20
 											? 'bg-themeLight hover:bg-themeLight text-theme'
 											: ''
 									} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active`}
@@ -316,7 +315,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									Reports
 									<span
 										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4" ${
-											nav == 1
+											nav == 20
 												? 'translate-y-[-10px] rotate-90'
 												: 'translate-y-[-10px]'
 										}`}
@@ -335,7 +334,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 										</svg>
 									</span>
 								</a>
-								{nav === 1 && (
+								{nav === 20 && (
 									<ul className={`pl-[42px] pr-[20px] pb-3`}>
 										<li>
 											<NavLink
