@@ -5,7 +5,7 @@ import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-function Bookings() {
+function Buses() {
 	const { user } = useContext(AuthContext);
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['trips'],
@@ -29,9 +29,7 @@ function Bookings() {
 			) : (
 				<main className="body-content px-8 py-8 bg-slate-100">
 					<div className="page-title mb-7">
-						<h3 className="mb-0 text-4xl">
-							{user.user.role === 'Admin' ? 'My Bookings' : 'Bookings'}
-						</h3>
+						<h3 className="mb-0 text-4xl">Buses</h3>
 					</div>
 					<div>
 						{data?.trips?.length > 0 &&
@@ -41,13 +39,13 @@ function Bookings() {
 										key={item._id}
 										onClick={() => handleClick(item._id)}
 										className="bg-white shadow rounded-lg my-2 px-6 py-5"
-									>
-										<div className="flex justify-between items-center">
-											<p className="">From: {item?.from}</p>
-											<p className="">To: {item.to}</p>
-											<p className="">Bus: {item?.bus?.name}</p>
-											<p className="">Price: {item.price}</p>
-										</div>
+								>
+									<div className="flex justify-between items-center">
+										<p className="">From: {item?.from}</p>
+										<p className="">To: {item.to}</p>
+										<p className="">Bus: {item?.bus?.name}</p>
+										<p className="">Price: {item.price}</p>
+									</div>
 									</div>
 								);
 							})}
@@ -58,4 +56,4 @@ function Bookings() {
 	);
 }
 
-export default Bookings;
+export default Buses;

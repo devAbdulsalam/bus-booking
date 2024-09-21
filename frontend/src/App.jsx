@@ -5,8 +5,17 @@ import Register from './pages/Register';
 import NotFound from './NotFound';
 import Layout from './Layout';
 import Dashboard from './pages/Dashboard';
-import Booking from './pages/Booking';
-import Book from './pages/Book';
+import AddBus from './pages/Addbus';
+import Bookings from './pages/Bookings';
+import BookingInfo from './pages/BookingInfo';
+import Payment from './pages/Payment';
+import ConfirmPayment from './pages/ConfirmPayment';
+import Book from './pages/BookTrip';
+import Buses from './pages/Buses';
+import Report from './pages/Report';
+import Reports from './pages/Reports';
+import ReportInfo from './pages/ReportInfo';
+import Users from './pages/Users';
 import DashboardLayout from './pages/DashboardLayout';
 function App() {
 	return (
@@ -18,9 +27,20 @@ function App() {
 					<Route exact path="/" element={<DashboardLayout />}>
 						<Route path="/" element={<Dashboard />} />
 						<Route path="/dashboard" element={<Dashboard />} />
-						<Route path="/add-bus" element={<Book />} />
-						<Route path="/book" element={<Book />} />
-						<Route path="/bookings" element={<Booking />} />
+						<Route path="/add-bus" element={<AddBus />} />
+						<Route path="/buses" element={<Buses />} />
+						<Route path="/bookings" element={<Bookings />} />
+						<Route path="/book-trip/:id" element={<Book />} />
+						<Route path="/bookings/:id" element={<BookingInfo />} />
+						<Route path="/bookings/:id/payment" element={<Payment />} />
+						<Route
+							path="/bookings/:id/confirm-payment"
+							element={<ConfirmPayment />}
+						/>
+						<Route path="/report" element={<Report />} />
+						<Route path="/reports" element={<Reports />} />
+						<Route path="/reports/:id" element={<ReportInfo />} />
+						<Route path="/users" element={<Users />} />
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFound />} />

@@ -78,9 +78,9 @@ const LoginScreen = () => {
 				console.log(data);
 				await AsyncStorage.setItem('accessToken', data.accessToken);
 				await AsyncStorage.setItem('userInfo', JSON.stringify(data.user));
-				setSesion(data.accessToken);
-				setToken(data.accessToken);
-				setProfile(data.user);
+				setSesion(data?.accessToken);
+				setToken(data?.accessToken);
+				setProfile(data?.user);
 				clearData();
 				router.replace('/(app)/');
 			}

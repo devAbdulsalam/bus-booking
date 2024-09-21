@@ -15,11 +15,6 @@ router.post('/login', loginUser);
 router.post('/login/admin', loginAdmin);
 router.post('/refresh-token', refreshToken);
 router.get('/user/dashboard', auth, getUserDashboard);
-router.get(
-	'/admin/dashboard',
-	auth,
-	verifyPermission(['ADMIN']),
-	getAdminDashboard
-);
+router.get('/admin/dashboard', auth, getAdminDashboard);
 
 export default router;

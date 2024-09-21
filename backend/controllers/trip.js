@@ -78,3 +78,11 @@ export const getTrips = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+export const getTrip = async (req, res) => {
+	try {
+		const trip = await Trip.findById(req.params.id).populate('bus');
+		res.status(200).json(trip);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};

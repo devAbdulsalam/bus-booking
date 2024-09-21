@@ -107,7 +107,7 @@ export const refreshToken = async (req, res) => {
 export const getUserDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;
-		const reports = await Report.find({ userId });
+		const reports = await Report.find({ userId }).limit(5);
 		// get current date and get 5 trips closer to the date
 		const currentDate = new Date();
 
@@ -122,7 +122,7 @@ export const getUserDashboard = async (req, res) => {
 			.limit(5);
 		let result;
 		if (req.user.role === 'ADMIN') {
-			result = await Booking.find().limit(10);
+			result = await Booking.find().limit(5);
 		} else {
 			result = await Booking.find({ userId });
 		}
@@ -140,10 +140,10 @@ export const getAdminDashboard = async (req, res) => {
 		const totaltrips = await Trip.countDocuments();
 		const totalbuses = await Bus.countDocuments();
 		const totalbookings = await Booking.countDocuments();
-		const reports = await Report.find().limit(10);
-		const users = await User.find().limit(10);
-		const trips = await Trip.find().limit(10);
-		const buses = await Bus.find().limit(10);
+		const reports = await Report.find().limit(5);
+		const users = await User.find().limit(5);
+		const trips = await Trip.find().limit(5);
+		const buses = await Bus.find().limit(5);
 		// Define a custom sort order for statuses
 		const sortOrder = { pending: 1, confirmed: 2, conpleted: 3, canceled: 4 };
 

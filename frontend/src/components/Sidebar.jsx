@@ -10,7 +10,7 @@ import logo from '../assets/logo.jpg';
 const Sidebar = ({ sideMenu, setSideMenu }) => {
 	const navigate = useNavigate();
 	const [nav, setNav] = useState(null);
-	const { setUser, setToken } = useContext(AuthContext);
+	const {user, setUser, setToken } = useContext(AuthContext);
 	const [isLogoutModal, setIsLogoutModal] = useState(false);
 	const handleNav = (number) => {
 		nav !== number ? setNav(number) : setNav(null);
@@ -192,29 +192,173 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 										</svg>
 									</span>
 								</a>
-								{nav === 1 && (
-									<ul className={`pl-[42px] pr-[20px] pb-3`}>
+								{user?.user?.role === 'ADMIN' && (
+									<>
+										{nav === 1 && (
+											<ul className={`pl-[42px] pr-[20px] pb-3`}>
+												<li>
+													<NavLink
+														to={'/buses'}
+														onClick={handleSideBar}
+														className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+													>
+														Buses
+													</NavLink>
+												</li>
+												<li>
+													<NavLink
+														to={'/add-bus'}
+														onClick={handleSideBar}
+														className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+													>
+														Add Bus
+													</NavLink>
+												</li>
+											</ul>
+										)}
+									</>
+								)}
+							</li>
+							<li>
+								<a
+									onClick={() => handleNav(6)}
+									className={`
+										${
+											nav == 6
+												? 'bg-themeLight hover:bg-themeLight text-theme'
+												: ''
+										} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active`}
+								>
+									<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
+										<svg
+											className="-translate-y-[4px]"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											width="16"
+											height="16"
+										>
+											<path
+												fill="currentColor"
+												d="m11.349,24H0V3C0,1.346,1.346,0,3,0h12c1.654,0,3,1.346,3,3v5.059c-.329-.036-.662-.059-1-.059s-.671.022-1,.059V3c0-.552-.448-1-1-1H3c-.552,0-1,.448-1,1v19h7.518c.506.756,1.125,1.429,1.831,2Zm0-14h-7.349v2h5.518c.506-.756,1.125-1.429,1.831-2Zm-7.349,7h4c0-.688.084-1.356.231-2h-4.231v2Zm20,0c0,3.859-3.141,7-7,7s-7-3.141-7-7,3.141-7,7-7,7,3.141,7,7Zm-2,0c0-2.757-2.243-5-5-5s-5,2.243-5,5,2.243,5,5,5,5-2.243,5-5ZM14,5H4v2h10v-2Zm5.589,9.692l-3.228,3.175-1.63-1.58-1.393,1.436,1.845,1.788c.314.315.733.489,1.179.489s.865-.174,1.173-.482l3.456-3.399-1.402-1.426Z"
+											/>
+										</svg>
+									</span>
+									Bookings
+									<span
+										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4" ${
+											nav == 6
+												? 'translate-y-[-10px] rotate-90'
+												: 'translate-y-[-10px]'
+										}`}
+									>
+										<svg
+											className="-translate-y-[5px]"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											width="16"
+											height="16"
+										>
+											<path
+												fill="currentColor"
+												d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"
+											/>
+										</svg>
+									</span>
+								</a>
+								{nav === 6 && (
+									<ul className="pl-[42px] pr-[20px] pb-3">
 										<li>
 											<NavLink
-												to={'/buses'}
+												to={'/bookings'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>
-												Buses
+												Bookings
 											</NavLink>
 										</li>
+
 										<li>
 											<NavLink
-												to={'/add-bus'}
+												to={'/book-trip'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>
-												Add Bus
+												Book trip
 											</NavLink>
 										</li>
 									</ul>
 								)}
 							</li>
+
+							<li>
+								<a
+									onClick={() => handleNav(1)}
+									className={`${
+										nav == 1
+											? 'bg-themeLight hover:bg-themeLight text-theme'
+											: ''
+									} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active`}
+								>
+									<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
+										<svg
+											className="-translate-y-[4px]"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											width="16"
+											height="16"
+										>
+											<path
+												fill="currentColor"
+												d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm-4,21.164v-.164c0-2.206,1.794-4,4-4s4,1.794,4,4v.164c-1.226.537-2.578.836-4,.836s-2.774-.299-4-.836Zm9.925-1.113c-.456-2.859-2.939-5.051-5.925-5.051s-5.468,2.192-5.925,5.051c-2.47-1.823-4.075-4.753-4.075-8.051C2,6.486,6.486,2,12,2s10,4.486,10,10c0,3.298-1.605,6.228-4.075,8.051Zm-5.925-15.051c-2.206,0-4,1.794-4,4s1.794,4,4,4,4-1.794,4-4-1.794-4-4-4Zm0,6c-1.103,0-2-.897-2-2s.897-2,2-2,2,.897,2,2-.897,2-2,2Z"
+											/>
+										</svg>
+									</span>
+									Reports
+									<span
+										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4" ${
+											nav == 1
+												? 'translate-y-[-10px] rotate-90'
+												: 'translate-y-[-10px]'
+										}`}
+									>
+										<svg
+											className="-translate-y-[5px]"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											width="16"
+											height="16"
+										>
+											<path
+												fill="currentColor"
+												d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"
+											/>
+										</svg>
+									</span>
+								</a>
+								{nav === 1 && (
+									<ul className={`pl-[42px] pr-[20px] pb-3`}>
+										<li>
+											<NavLink
+												to={'/reports'}
+												onClick={handleSideBar}
+												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+											>
+												Reports
+											</NavLink>
+										</li>
+										<li>
+											<NavLink
+												to={'/report'}
+												onClick={handleSideBar}
+												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+											>
+												New Report
+											</NavLink>
+										</li>
+									</ul>
+								)}
+							</li>
+
 							<li className="">
 								<a
 									onClick={() => handleNav(5)}
@@ -274,100 +418,6 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 										</li>
 									</ul>
 								)}
-							</li>
-							<li>
-								<a
-									onClick={() => handleNav(6)}
-									className={`
-										${
-											nav == 6
-												? 'bg-themeLight hover:bg-themeLight text-theme'
-												: ''
-										} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active`}
-								>
-									<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
-										<svg
-											className="-translate-y-[4px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="m11.349,24H0V3C0,1.346,1.346,0,3,0h12c1.654,0,3,1.346,3,3v5.059c-.329-.036-.662-.059-1-.059s-.671.022-1,.059V3c0-.552-.448-1-1-1H3c-.552,0-1,.448-1,1v19h7.518c.506.756,1.125,1.429,1.831,2Zm0-14h-7.349v2h5.518c.506-.756,1.125-1.429,1.831-2Zm-7.349,7h4c0-.688.084-1.356.231-2h-4.231v2Zm20,0c0,3.859-3.141,7-7,7s-7-3.141-7-7,3.141-7,7-7,7,3.141,7,7Zm-2,0c0-2.757-2.243-5-5-5s-5,2.243-5,5,2.243,5,5,5,5-2.243,5-5ZM14,5H4v2h10v-2Zm5.589,9.692l-3.228,3.175-1.63-1.58-1.393,1.436,1.845,1.788c.314.315.733.489,1.179.489s.865-.174,1.173-.482l3.456-3.399-1.402-1.426Z"
-											/>
-										</svg>
-									</span>
-									Bookings
-									<span
-										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4" ${
-											nav == 6
-												? 'translate-y-[-10px] rotate-90'
-												: 'translate-y-[-10px]'
-										}`}
-									>
-										<svg
-											className="-translate-y-[5px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"
-											/>
-										</svg>
-									</span>
-								</a>
-								{nav === 6 && (
-									<ul className="pl-[42px] pr-[20px] pb-3">
-										<li>
-											<NavLink
-												to={'orders'}
-												onClick={handleSideBar}
-												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
-											>
-												Bookings
-											</NavLink>
-										</li>
-
-										<li>
-											<NavLink
-												to={'transactions'}
-												onClick={handleSideBar}
-												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
-											>
-												Transactions
-											</NavLink>
-										</li>
-									</ul>
-								)}
-							</li>
-
-							<li>
-								<NavLink
-									to={'/profile'}
-									onClick={handleSideBar}
-									className="group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active"
-								>
-									<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
-										<svg
-											className="-translate-y-[4px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm-4,21.164v-.164c0-2.206,1.794-4,4-4s4,1.794,4,4v.164c-1.226.537-2.578.836-4,.836s-2.774-.299-4-.836Zm9.925-1.113c-.456-2.859-2.939-5.051-5.925-5.051s-5.468,2.192-5.925,5.051c-2.47-1.823-4.075-4.753-4.075-8.051C2,6.486,6.486,2,12,2s10,4.486,10,10c0,3.298-1.605,6.228-4.075,8.051Zm-5.925-15.051c-2.206,0-4,1.794-4,4s1.794,4,4,4,4-1.794,4-4-1.794-4-4-4Zm0,6c-1.103,0-2-.897-2-2s.897-2,2-2,2,.897,2,2-.897,2-2,2Z"
-											/>
-										</svg>
-									</span>
-									Profile
-								</NavLink>
 							</li>
 						</ul>
 						<div className="border-t border-gray pt-3 mt-3">

@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchDashboard } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 import Loader from '../components/Loader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -15,6 +16,7 @@ const Dashboard = () => {
 		queryKey: ['dashboard'],
 		queryFn: async () => fetchDashboard(user),
 	});
+	const navigate = useNavigate();
 	useEffect(() => {
 		if (data) {
 			console.log(data);
@@ -26,17 +28,9 @@ const Dashboard = () => {
 			toast.error(error?.message);
 		}
 	}, [data, error]);
-
-	// const handleDelete = () => {
-	// 	// console.log(item);
-	// };
-	// const handleEdit = (product) => {
-	// 	setSelectedProduct(product);
-	// 	navigate(`/products/${product._id}/edit`);
-	// };
 	return (
 		<>
-			<div className="body-content px-8 py-8 bg-slate-100">
+			<main className="body-content px-8 py-8 bg-slate-100">
 				<div className="flex justify-between items-end flex-wrap">
 					<div className="page-title mb-7">
 						<h3 className="mb-0 text-4xl">Dashboard</h3>
@@ -386,7 +380,139 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
-			</div>
+				<section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6">
+					<div className="row-span-3 bg-white shadow rounded-lg">
+						<div className="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100">
+							<span>Recent Bookings</span>
+							<button
+								type="button"
+								className="inline-flex justify-center rounded-md px-1 -mr-1 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-600"
+								id="options-menu"
+								aria-haspopup="true"
+								aria-expanded="true"
+							>
+								Descending
+								<svg
+									className="-mr-1 ml-1 h-5 w-5"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</button>
+						</div>
+						<div className="overflow-y-auto" style={{ maxHeight: '24rem' }}>
+							<ul className="p-6 space-y-6">
+								{data?.bookings?.length > 0 &&
+									data?.bookings?.map((item) => {
+										return (
+											<li
+												key={item._id}
+												onClick={() => navigate(`/bookings/${item._id}`)}
+												className="flex items-center cursor-pointer text-sm"
+											>
+												<div className="">
+													<p className="text-gray-600">Seat: {item?.seat}</p>
+													<p className="text-gray-600">Price: {item?.price}</p>
+												</div>
+												<span className="ml-auto font-semibold">
+													{item?.status}
+												</span>
+											</li>
+										);
+									})}
+							</ul>
+						</div>
+					</div>
+					<div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
+						<div className="px-6 py-5 font-semibold border-b border-gray-100">
+							New Trips
+						</div>
+						<div className="p-4 flex-grow">
+							<ul className="p-6 space-y-6">
+								{data?.trips?.length > 0 &&
+									data?.trips?.map((item) => {
+										return (
+											<li
+												key={item._id}
+												onClick={() => navigate(`/trips/${item._id}`)}
+												className="flex items-center justify-between cursor-pointer text-sm"
+											>
+												<div className="">
+													<p className="text-gray-600">From: {item?.from}</p>
+													<p className="text-gray-600">To: {item?.to}</p>
+												</div>
+												<div className="">
+													<p className="ml-auto font-semibold">
+														₦ {item?.price}
+													</p>
+													<p className="ml-auto">
+														{moment(item?.date).format('MMM Do YY, h:mm')}
+													</p>
+												</div>
+											</li>
+										);
+									})}
+							</ul>
+						</div>
+					</div>
+					<div className="row-span-3 bg-white shadow rounded-lg">
+						<div className="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100">
+							<span>Reports</span>
+							<button
+								type="button"
+								className="inline-flex justify-center rounded-md px-1 -mr-1 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-600"
+								id="options-menu"
+								aria-haspopup="true"
+								aria-expanded="true"
+							>
+								Descending
+								<svg
+									className="-mr-1 ml-1 h-5 w-5"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</button>
+						</div>
+						<div className="overflow-y-auto" style={{ maxHeight: '24rem' }}>
+							<ul className="p-6 space-y-6">
+								{data?.reports?.length > 0 &&
+									data?.reports?.map((item) => {
+										return (
+											<li
+												key={item._id}
+												onClick={() => navigate(`/reports/${item._id}`)}
+												className="flex items-center cursor-pointer"
+											>
+												<div className="">
+													<p className="text-gray-600">{item?.address}</p>
+													<p className="text-gray-600">
+														{moment(item?.timestamp).format('MMM Do')}
+													</p>
+												</div>
+												<span className="ml-auto text-sm font-semibold">
+													{item?.status}
+												</span>
+											</li>
+										);
+									})}
+							</ul>
+						</div>
+					</div>
+				</section>
+			</main>
 			{isLoading && <Loader />}
 		</>
 	);
