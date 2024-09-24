@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Loader from '../components/Loader';
-import { fetchTrips } from '../hooks/axiosApis';
+import { fetchBookings } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 function Bookings() {
 	const { user } = useContext(AuthContext);
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['trips'],
-		queryFn: async () => fetchTrips(user.accessToken || user.token),
+		queryKey: ['bookings'],
+		queryFn: async () => fetchBookings(user.accessToken || user.token),
 	});
 
 	const navigate = useNavigate();

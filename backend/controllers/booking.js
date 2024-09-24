@@ -61,7 +61,9 @@ export const getbookings = async (req, res) => {
 export const getbooking = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const booking = await Booking.findById(id).populate({
+		
+		console.log('booking req.params.id', req.params.id);
+		const booking = await Booking.findById(id).populate('tripId').populate({
 			path: 'userId',
 			select: 'email name phone rank',
 		});

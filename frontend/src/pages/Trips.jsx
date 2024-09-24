@@ -20,7 +20,7 @@ function Buses() {
 		console.log(data);
 	}
 	const handleClick = (id) => {
-		navigate(`/bookings/${id}`);
+		navigate(`/trips/${id}`);
 	};
 	return (
 		<>
@@ -29,7 +29,7 @@ function Buses() {
 			) : (
 				<main className="body-content px-8 py-8 bg-slate-100">
 					<div className="page-title mb-7">
-						<h3 className="mb-0 text-4xl">Buses</h3>
+						<h3 className="mb-0 text-4xl">Trips</h3>
 					</div>
 					<div>
 						{data?.trips?.length > 0 &&
@@ -39,13 +39,13 @@ function Buses() {
 										key={item._id}
 										onClick={() => handleClick(item._id)}
 										className="bg-white shadow rounded-lg my-2 px-6 py-5"
-								>
-									<div className="flex justify-between items-center">
-										<p className="">From: {item?.from}</p>
-										<p className="">To: {item.to}</p>
-										<p className="">Bus: {item?.bus?.name}</p>
-										<p className="">Price: {item.price}</p>
-									</div>
+									>
+										<div className="flex justify-between items-center">
+											<p className="">From: {item?.from}</p>
+											<p className="">To: {item.to}</p>
+											<p className="">Bus: {item?.bus?.name}</p>
+											<p className="">Price: {item.price}</p>
+										</div>
 									</div>
 								);
 							})}

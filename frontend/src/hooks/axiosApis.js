@@ -67,14 +67,14 @@ export const fetchBus = async (props) => {
 		return error;
 	}
 };
-export const fetchBookings = async (user) => {
+export const fetchBookings = async (token) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token || user.accessToken}`,
+				Authorization: `Bearer ${token}`,
 			},
 		};
-		const { data } = await axios.get(`${apiUrl}/buses`, config);
+		const { data } = await axios.get(`${apiUrl}/bookings`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);
@@ -88,7 +88,7 @@ export const fetchBooking = async (props) => {
 				Authorization: `Bearer ${props?.token || props.accessToken}`,
 			},
 		};
-		const { data } = await axios.get(`${apiUrl}/buses/${props.id}`, config);
+		const { data } = await axios.get(`${apiUrl}/bookings/${props.id}`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);

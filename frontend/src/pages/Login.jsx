@@ -41,6 +41,7 @@ const Login = () => {
 				title: 'Login successfull',
 				icon: 'success',
 				text: 'Log in account successfully',
+				confirmButtonColor: '#3085d6',
 			});
 		} catch (error) {
 			setLoading(false);
@@ -50,6 +51,9 @@ const Login = () => {
 				title: 'Error!',
 				icon: 'error',
 				text: message,
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
 			});
 		}
 	};
