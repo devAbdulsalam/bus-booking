@@ -9,7 +9,7 @@ import AddBus from './pages/Addbus';
 import Bookings from './pages/Bookings';
 import BookingInfo from './pages/BookingInfo';
 import Payment from './pages/Payment';
-import ConfirmPayment from './pages/ConfirmPayment';
+// import ConfirmPayment from './pages/ConfirmPayment';
 import BookTrip from './pages/BookTrip';
 import TripInfo from './pages/TripInfo';
 import Trips from './pages/Trips';
@@ -35,10 +35,10 @@ function App() {
 						<Route path="/bookings/:id" element={<BookingInfo />} />
 						<Route path="/trips/:id/book-trip" element={<BookTrip />} />
 						<Route path="/trips/:id/payment" element={<Payment />} />
-						<Route
+						{/* <Route
 							path="/trips/:id/confirm-payment"
 							element={<ConfirmPayment />}
-						/>
+						/> */}
 						<Route path="/report" element={<Report />} />
 						<Route path="/reports" element={<Reports />} />
 						<Route path="/reports/:id" element={<ReportInfo />} />
