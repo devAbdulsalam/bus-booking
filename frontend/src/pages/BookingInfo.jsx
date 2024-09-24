@@ -37,10 +37,10 @@ const BookingInfo = () => {
 					<div className="bg-white shadow rounded-lg my-2 px-6 py-5">
 						<div>
 							<div className="flex justify-between items-center">
-								<p>From: {data?.from}</p>
-								<p>To: {data?.to}</p>
+								<p>From: {data?.from || data?.bus?.from}</p>
+								<p>To: {data?.to || data?.bus?.to}</p>
 								<p>Price: {data?.price}</p>
-									<p>Date:  {moment(data?.date).format('MMM Do')}</p>
+								<p>Date: {moment(data?.date).format('MMM Do')}</p>
 								<p>Seat(s): {data?.seat}</p>
 							</div>
 						</div>
