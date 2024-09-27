@@ -19,9 +19,6 @@ const BookingInfo = () => {
 	if (error) {
 		console.log(error);
 	}
-	if (data) {
-		console.log(data);
-	}
 	const handleClick = () => {
 		navigate(`/bookings/${id}`);
 	};
@@ -37,8 +34,10 @@ const BookingInfo = () => {
 					<div className="bg-white shadow rounded-lg my-2 px-6 py-5">
 						<div>
 							<div className="flex justify-between items-center">
-								<p>From: {data?.from || data?.bus?.from}</p>
-								<p>To: {data?.to || data?.bus?.to}</p>
+								<p>From: {data?.from || data?.tripId?.from}</p>
+								<p>To: {data?.to || data?.tripId?.to}</p>
+							</div>
+							<div className="flex justify-between items-center">
 								<p>Price: {data?.price}</p>
 								<p>Date: {moment(data?.date).format('MMM Do')}</p>
 								<p>Seat(s): {data?.seat}</p>
@@ -46,12 +45,19 @@ const BookingInfo = () => {
 						</div>
 					</div>
 					<div className="flex justify-center my-10">
-						{data?.status !== 'COMPLETEDD' && (
+						{data?.status !== 'COMPLETED' ? (
 							<button
 								className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
 								onClick={handleClick}
 							>
 								Book now
+							</button>
+						) : (
+							<button
+								className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+								disabled
+							>
+								Booked
 							</button>
 						)}
 					</div>

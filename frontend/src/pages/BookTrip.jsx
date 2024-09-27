@@ -9,7 +9,7 @@ import moment from 'moment';
 const BusInfo = () => {
 	const { user } = useContext(AuthContext);
 	const { id } = useParams();
-	const [selectedSeat, setSelectedSeat] = useState(1);
+	const [selectedSeat, setSelectedSeat] = useState();
 	const [seat, setSeat] = useState(0);
 	const [isError, setIsError] = useState('');
 	const props = { token: user.accessToken || user.token, id };
@@ -31,17 +31,16 @@ const BusInfo = () => {
 	}
 
 	const handleChange = (text) => {
-		if (isNaN(parseInt(text))) {
-			setIsError('Invalid input. Please enter a number.');
-		} else if (seat && Number(text) > Number(seat)) {
-			setIsError('Selected seat number exceeds available seats.');
-		} else {
-			setIsError('');
-			setSelectedSeat(parseInt(text));
-		}
+		setSelectedSeat(parseInt(text));
 	};
 	const handleClick = () => {
-		navigate(`/trips/${id}/payment?seats=${selectedSeat}`);
+		if (isNaN(parseInt(selectedSeat))) {
+			return setIsError('Invalid input. Please enter a number.');
+		} else if (seat && Number(selectedSeat) > Number(seat)) {
+			return setIsError('Selected seat number exceeds available seats.');
+		} else {
+			navigate(`/trips/${id}/payment?seats=${selectedSeat}`);
+		}
 	};
 	return (
 		<>
@@ -60,7 +59,7 @@ const BusInfo = () => {
 								<p>Price: {data?.price}</p>
 								<p>Date: {moment(data?.date).format('MMM Do')}</p>
 							</div>
-							<div className='mt-2 font-bold'>
+							<div className="mt-2 font-bold">
 								<p>Available Seat(s): {data?.bus.seatCapacity}</p>
 								<p>Booked Seat(s): {data?.bus.seatsFilled}</p>
 							</div>

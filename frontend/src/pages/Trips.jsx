@@ -4,6 +4,7 @@ import { fetchTrips } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function Buses() {
 	const { user } = useContext(AuthContext);
@@ -38,12 +39,16 @@ function Buses() {
 									<div
 										key={item._id}
 										onClick={() => handleClick(item._id)}
-										className="bg-white shadow rounded-lg my-2 px-6 py-5"
+										className="bg-white shadow rounded-lg my-2 px-6 py-5  cursor-pointer"
 									>
 										<div className="flex justify-between items-center">
 											<p className="">From: {item?.from}</p>
 											<p className="">To: {item.to}</p>
-											<p className="">Bus: {item?.bus?.name}</p>
+										</div>
+										<div className="flex justify-between items-center">
+											<p className="">
+												Date: {moment(item?.tripTime).format('MMM Do')}
+											</p>
 											<p className="">Price: {item.price}</p>
 										</div>
 									</div>

@@ -34,19 +34,21 @@ function Bookings() {
 						</h3>
 					</div>
 					<div>
-						{data?.trips?.length > 0 &&
-							data?.trips?.map((item) => {
+						{data?.length > 0 &&
+							data?.map((item) => {
 								return (
 									<div
 										key={item._id}
 										onClick={() => handleClick(item._id)}
-										className="bg-white shadow rounded-lg my-2 px-6 py-5"
+										className="bg-white shadow rounded-lg my-2 px-6 py-5 cursor-pointer"
 									>
 										<div className="flex justify-between items-center">
-											<p className="">From: {item?.from}</p>
-											<p className="">To: {item.to}</p>
-											<p className="">Bus: {item?.bus?.name}</p>
-											<p className="">Price: {item.price}</p>
+											<p className="">From: {item?.tripId?.from}</p>
+											<p className="">To: {item?.tripId?.to}</p>
+										</div>
+										<div className="flex justify-between items-center">
+											<p className="text-green-500">Seat(s): {item?.seat}</p>
+											<p className="text-red-500">Price: {item?.price}</p>
 										</div>
 									</div>
 								);

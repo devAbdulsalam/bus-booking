@@ -51,7 +51,7 @@ export const getbookings = async (req, res) => {
 		if (req.user.role === 'ADMIN') {
 			result = await Booking.find();
 		} else {
-			result = await Booking.find({ userId });
+			result = await Booking.find({ userId }).populate('tripId');
 		}
 		res.status(200).json(result);
 	} catch (error) {
@@ -61,7 +61,7 @@ export const getbookings = async (req, res) => {
 export const getbooking = async (req, res) => {
 	try {
 		const { id } = req.params;
-		
+
 		console.log('booking req.params.id', req.params.id);
 		const booking = await Booking.findById(id).populate('tripId').populate({
 			path: 'userId',
