@@ -5,7 +5,7 @@ import {
 	MonnifyConsumer,
 } from 'react-monnify';
 
-const App = () => {
+const App = ({ data }) => {
 	// Define the necessary states
 	const [customerFullName, setCustomerFullName] = useState('John Doe');
 	const [customerEmail, setCustomerEmail] = useState('johndoe@example.com');
@@ -22,7 +22,7 @@ const App = () => {
 			setContractCode(data?.contractCode);
 			setCustomerEmail(data?.customerEmail);
 			setCustomerFullName(data?.name);
-			setCustomerMobileNumber(data?.name);
+			setCustomerMobileNumber(data?.number);
 		}
 	});
 	// Callback for when payment is completed

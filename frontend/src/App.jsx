@@ -17,7 +17,7 @@ import Report from './pages/Report';
 import Reports from './pages/Reports';
 import ReportInfo from './pages/ReportInfo';
 import Users from './pages/Users';
-import Monnify from './pages/Monnify';
+// import Monnify from './pages/Monnify';
 import DashboardLayout from './pages/DashboardLayout';
 function App() {
 	return (
@@ -30,7 +30,7 @@ function App() {
 						<Route path="/" element={<Dashboard />} />
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/add-bus" element={<AddBus />} />
-						<Route path="/monniify" element={<Monnify />} />
+						{/* <Route path="/monniify" element={<Monnify />} /> */}
 						<Route path="/trips" element={<Trips />} />
 						<Route path="/trips/:id" element={<TripInfo />} />
 						<Route path="/bookings" element={<Bookings />} />

@@ -1,26 +1,23 @@
 import { useContext } from 'react';
 import AuthContext from '../context/authContext';
 import Loader from '../components/Loader';
-import { fetchReports } from '../hooks/axiosApis';
+import { fetchUsers } from '../hooks/axiosApis';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-const Reports = () => {
+const Users = () => {
 	const { user } = useContext(AuthContext);
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['reports'],
-		queryFn: async () => fetchReports(user.accessToken || user.token),
+		queryKey: ['users'],
+		queryFn: async () => fetchUsers(user),
 	});
 	const navigate = useNavigate();
 	if (error) {
 		console.log(error);
 	}
-	if (data) {
-		console.log(data);
-	}
-
 	const handleClick = (id) => {
-		navigate(`/reports/${id}`);
+		console.log('fetchUser', id);
+		navigate(`/users`);
 	};
 	return (
 		<>
@@ -32,19 +29,21 @@ const Reports = () => {
 						<h3 className="mb-0 text-4xl">Users</h3>
 					</div>
 					{data?.length > 0 &&
-						data?.map((item) => {
+							data?.map((item) => {
+							console.log('Users', item);
 							return (
 								<div
 									key={item._id}
 									onClick={() => handleClick(item._id)}
-									className="bg-white shadow rounded-lg my-2 px-6 py-5"
+									className="bg-white shadow rounded-lg my-2 px-6 py-5 text-green-500"
 								>
 									<div className="flex justify-between items-center">
-										<div className="">
-											<p className=" font-semibold">{item?.address}</p>
-											<p className="">{item?.timestamp}</p>
-										</div>
-										<p className=" font-semibold">{item?.status}</p>
+										<p className=" font-semibold">{item?.name}</p>
+										<p className=" font-semibold">{item?.email}</p>
+									</div>
+									<div className="flex justify-between items-center">
+										<p className="">{item?.phone}</p>
+										<p className=" font-semibold">{item?.rank}</p>
 									</div>
 								</div>
 							);
@@ -55,4 +54,4 @@ const Reports = () => {
 	);
 };
 
-export default Reports;
+export default Users;

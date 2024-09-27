@@ -7,6 +7,7 @@ import {
 	refreshToken,
 	getAdminDashboard,
 	getUserDashboard,
+	getUsers,
 } from '../controllers/user.js';
 import auth, { verifyPermission } from '../middlewares/auth.js';
 
@@ -16,5 +17,6 @@ router.post('/login/admin', loginAdmin);
 router.post('/refresh-token', refreshToken);
 router.get('/user/dashboard', auth, getUserDashboard);
 router.get('/admin/dashboard', auth, getAdminDashboard);
+router.get('/', getUsers);
 
 export default router;
