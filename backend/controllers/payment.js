@@ -1,4 +1,5 @@
 import axios from 'axios';
+import User from '../models/User.js';
 const API_KEY = 'MK_TEST_VKMVS929KW';
 const SECRET_KEY = 'X3500BXPGW51TW1K1G3DPZHABAPW1K7B';
 
@@ -133,6 +134,20 @@ export const getPayments = async (req, res) => {
 		const data = await response.json();
 		const result = data?.responseBody?.content;
 		res.json(result);
+	} catch (error) {
+		console.error('Error getting transaction:', error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	}
+};
+export const updatePayment = async (req, res) => {
+	try {
+		const { userId, amount } = req.body;
+		console.log('req.body', req.body);
+		const user = await User.findByIdAndUpdate(
+			{ _id: userId },
+			{ wallet: amount }
+		);
+		res.json(user);
 	} catch (error) {
 		console.error('Error getting transaction:', error);
 		res.status(500).json({ error: 'Internal Server Error' });

@@ -1,78 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import {
-	useMonnifyPayment,
-	MonnifyButton,
-	MonnifyConsumer,
-} from 'react-monnify';
-
-const App = ({ data }) => {
+import { useEffect, useState, useContext } from 'react';
+import AuthContext from '../context/authContext';
+// import {
+// 	useMonnifyPayment,
+// 	MonnifyButton,
+// 	MonnifyConsumer,
+// } from 'react-monnify';
+import Loader from '../components/Loader';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+const App = () => {
 	// Define the necessary states
+	const { user } = useContext(AuthContext);
 	const [customerFullName, setCustomerFullName] = useState('John Doe');
 	const [customerEmail, setCustomerEmail] = useState('johndoe@example.com');
 	const [customerMobileNumber, setCustomerMobileNumber] =
 		useState('08012345678');
 	const [amount, setAmount] = useState(5000); // Example amount
-	const [apiKey, setApiKey] = useState('YOUR_API_KEY'); // Use your actual API key here
-	const [contractCode, setContractCode] = useState('YOUR_CONTRACT_CODE'); // Your contract code
-	const [reference, setReference] = useState('TRANS_' + new Date().getTime()); // Unique transaction reference
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (data) {
-			setAmount(data.amount);
-			setContractCode(data?.contractCode);
-			setCustomerEmail(data?.customerEmail);
-			setCustomerFullName(data?.name);
-			setCustomerMobileNumber(data?.number);
+		if (user) {
+			setCustomerEmail(user?.user?.email);
+			setCustomerFullName(user?.user?.name);
+			setCustomerMobileNumber(user?.user?.phone);
 		}
-	});
-	// Callback for when payment is completed
-	const onComplete = (response) => {
-		console.log('Payment successful:', response);
+	}, [user]);
+
+	const apiUrl = import.meta.env.VITE_API_URL;
+	const handlePayment = async (response) => {
+		setLoading(true);
+		await axios
+			.post(`${apiUrl}/payments/update-payment`, {
+				userId: user?.user?._id,
+				amount,
+				...response,
+			})
+			.then((data) => {
+				console.log('Payment status updated:', data);
+				alert('Payment Successful!');
+				navigate('/');
+			})
+			.catch((error) => {
+				console.error('Error updating payment status:', error);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
-	// Callback for when payment is closed or cancelled
-	const close = (response) => {
-		console.log('Payment closed:', response);
-	};
-
-	// Monnify component props for MonnifyButton and MonnifyConsumer
-	const componentProps = {
-		customerFullName,
-		customerEmail,
-		customerMobileNumber,
-		amount,
-		apiKey,
-		contractCode,
-		reference,
-		onComplete,
-		close,
-		embed: true, // Embed the payment within the app
-		disabled: false, // Make payment button clickable
-		tag: 'button', // Can be button or other tags
+	const payWithMonnify = async () => {
+		window.MonnifySDK.initialize({
+			amount,
+			currency: 'NGN',
+			customerFullName,
+			customerEmail,
+			customerMobileNumber,
+			apiKey: import.meta.env.VITE_MONNIFY_API_KEY,
+			contractCode: import.meta.env.VITE_MONNIFY_CONTRACT_CODE,
+			reference: 'TRANS_' + new Date().getTime(),
+			paymentDescription: 'Payment for services',
+			metadata: {
+				name: 'John',
+				age: 30,
+			},
+			onLoadStart: () => {
+				console.log('loading has started');
+			},
+			onLoadComplete: () => {
+				console.log('SDK is UP');
+			},
+			onComplete: (response) => {
+				console.log('response ....', response);
+				handlePayment(response);
+			},
+			onClose: (data) => {
+				console.log(data);
+			},
+		});
 	};
 
 	return (
-		<div>
-			{/* Monnify Payment Button using MonnifyButton */}
-			<div>
-				<MonnifyButton
-					text="Make Payment"
-					className="payButton"
-					{...componentProps}
-				/>
-			</div>
-
-			{/* Monnify Payment Button using MonnifyConsumer */}
-			<div>
-				<MonnifyConsumer {...componentProps}>
-					{({ initializePayment }) => (
-						<button className="btn" onClick={() => initializePayment()}>
+		<>
+			<main className="body-content px-8 py-8 bg-slate-100">
+				<div className="page-title mb-7">
+					<h3 className="mb-0 text-4xl">Fund wallet</h3>
+				</div>
+				<main className="bg-white shadow rounded-lg my-2 px-6 py-5">
+					<div className="mx-auto w-full max-w-[550px] bg-white">
+						<div className="mb-4">
+							<label
+								htmlFor="amount"
+								className="mb-3 block text-base font-medium text-[#07074D]"
+							>
+								Amount
+							</label>
+							<input
+								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+								id="amount"
+								type="number"
+								placeholder="Enter Amount"
+								value={amount}
+								onChange={(e) => setAmount(e.target.value)}
+							/>
+						</div>
+						<button
+							onClick={payWithMonnify}
+							className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
+						>
 							Pay Now
 						</button>
-					)}
-				</MonnifyConsumer>
-			</div>
-		</div>
+					</div>
+				</main>
+			</main>
+			{loading && <Loader />}
+		</>
 	);
 };
 

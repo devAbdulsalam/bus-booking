@@ -11,6 +11,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 	const navigate = useNavigate();
 	const [nav, setNav] = useState(null);
 	const { user, setUser, setToken } = useContext(AuthContext);
+	console.log(user);
 	const [isLogoutModal, setIsLogoutModal] = useState(false);
 	const handleNav = (number) => {
 		nav !== number ? setNav(number) : setNav(null);
@@ -143,37 +144,71 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									Dashboard
 								</NavLink>
 							</li>
-							<li onClick={handleSideBar}>
-								<NavLink
-									to={'/trips'}
-									onClick={() => handleNav(1)}
-									className={`${
-										nav == 1
-											? 'bg-themeLight hover:bg-themeLight text-theme'
-											: ''
-									} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-2 hover:bg-gray sidebar-NavLink-active`}
-								>
-									<span className="inline-block  mr-[10px] text-xl">
-										<svg
-											className="-translate-y-[4px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="M16,0h-.13a2.02,2.02,0,0,0-1.941,1.532,2,2,0,0,1-3.858,0A2.02,2.02,0,0,0,8.13,0H8A5.006,5.006,0,0,0,3,5V21a3,3,0,0,0,3,3H8.13a2.02,2.02,0,0,0,1.941-1.532,2,2,0,0,1,3.858,0A2.02,2.02,0,0,0,15.87,24H18a3,3,0,0,0,3-3V5A5.006,5.006,0,0,0,16,0Zm2,22-2.143-.063A4,4,0,0,0,8.13,22H6a1,1,0,0,1-1-1V17H7a1,1,0,0,0,0-2H5V5A3,3,0,0,1,8,2l.143.063A4.01,4.01,0,0,0,12,5a4.071,4.071,0,0,0,3.893-3H16a3,3,0,0,1,3,3V15H17a1,1,0,0,0,0,2h2v4A1,1,0,0,1,18,22Z"
-											/>
-											<path
-												fill="currentColor"
-												d="M13,15H11a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"
-											/>
-										</svg>
-									</span>
-									Trips
-								</NavLink>
-							</li>
+							{user?.user?.role === 'ADMIN' ? (
+								<li onClick={handleSideBar}>
+									<NavLink
+										to={'/trips'}
+										onClick={() => handleNav(1)}
+										className={`${
+											nav == 1
+												? 'bg-themeLight hover:bg-themeLight text-theme'
+												: ''
+										} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-2 hover:bg-gray sidebar-NavLink-active`}
+									>
+										<span className="inline-block  mr-[10px] text-xl">
+											<svg
+												className="-translate-y-[4px]"
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="16"
+												height="16"
+											>
+												<path
+													fill="currentColor"
+													d="M16,0h-.13a2.02,2.02,0,0,0-1.941,1.532,2,2,0,0,1-3.858,0A2.02,2.02,0,0,0,8.13,0H8A5.006,5.006,0,0,0,3,5V21a3,3,0,0,0,3,3H8.13a2.02,2.02,0,0,0,1.941-1.532,2,2,0,0,1,3.858,0A2.02,2.02,0,0,0,15.87,24H18a3,3,0,0,0,3-3V5A5.006,5.006,0,0,0,16,0Zm2,22-2.143-.063A4,4,0,0,0,8.13,22H6a1,1,0,0,1-1-1V17H7a1,1,0,0,0,0-2H5V5A3,3,0,0,1,8,2l.143.063A4.01,4.01,0,0,0,12,5a4.071,4.071,0,0,0,3.893-3H16a3,3,0,0,1,3,3V15H17a1,1,0,0,0,0,2h2v4A1,1,0,0,1,18,22Z"
+												/>
+												<path
+													fill="currentColor"
+													d="M13,15H11a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"
+												/>
+											</svg>
+										</span>
+										Trips
+									</NavLink>
+								</li>
+							) : (
+								<li onClick={handleSideBar}>
+									<NavLink
+										to={'/book-trip'}
+										onClick={() => handleNav(1)}
+										className={`${
+											nav == 1
+												? 'bg-themeLight hover:bg-themeLight text-theme'
+												: ''
+										} group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-2 hover:bg-gray sidebar-NavLink-active`}
+									>
+										<span className="inline-block  mr-[10px] text-xl">
+											<svg
+												className="-translate-y-[4px]"
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="16"
+												height="16"
+											>
+												<path
+													fill="currentColor"
+													d="M16,0h-.13a2.02,2.02,0,0,0-1.941,1.532,2,2,0,0,1-3.858,0A2.02,2.02,0,0,0,8.13,0H8A5.006,5.006,0,0,0,3,5V21a3,3,0,0,0,3,3H8.13a2.02,2.02,0,0,0,1.941-1.532,2,2,0,0,1,3.858,0A2.02,2.02,0,0,0,15.87,24H18a3,3,0,0,0,3-3V5A5.006,5.006,0,0,0,16,0Zm2,22-2.143-.063A4,4,0,0,0,8.13,22H6a1,1,0,0,1-1-1V17H7a1,1,0,0,0,0-2H5V5A3,3,0,0,1,8,2l.143.063A4.01,4.01,0,0,0,12,5a4.071,4.071,0,0,0,3.893-3H16a3,3,0,0,1,3,3V15H17a1,1,0,0,0,0,2h2v4A1,1,0,0,1,18,22Z"
+												/>
+												<path
+													fill="currentColor"
+													d="M13,15H11a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"
+												/>
+											</svg>
+										</span>
+										Book Trip
+									</NavLink>
+								</li>
+							)}
 							<li onClick={handleSideBar}>
 								<NavLink
 									to={'/bookings'}
@@ -201,7 +236,6 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									Bookings
 								</NavLink>
 							</li>
-
 							<li>
 								<a
 									onClick={() => handleNav(20)}
