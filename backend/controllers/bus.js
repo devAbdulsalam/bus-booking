@@ -1,11 +1,12 @@
 import Bus from '../models/Bus.js';
 
 export const createBus = async (req, res) => {
-	const { tripTime, seatCapacity, name, price } = req.body;
+	const { seatCapacity, name, price } = req.body;
 	try {
-		// const tripTime = new Date();
-		const buses = await Bus.updateMany({}, { tripTime }, { new: true });
-		console.log('update buses', buses);
+		const tripTime = new Date();
+		// console.log(tripTime);
+		// const buses = await Bus.updateMany({}, { tripTime }, { new: true });
+		// console.log('update buses', buses);
 		const bus = new Bus({ name, tripTime, price, seatCapacity });
 		await bus.save();
 		res.status(201).json({ message: 'Bus created successfully', bus });
