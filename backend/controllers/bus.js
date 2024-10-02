@@ -3,7 +3,7 @@ import Bus from '../models/Bus.js';
 export const createBus = async (req, res) => {
 	const { tripTime, seatCapacity, name, price } = req.body;
 	try {
-		const bus = new Bus({ name, tripTime, seatCapacity });
+		const bus = new Bus({ name, tripTime, price, seatCapacity });
 		await bus.save();
 		res.status(201).json({ message: 'Bus created successfully', bus });
 	} catch (error) {
@@ -13,13 +13,21 @@ export const createBus = async (req, res) => {
 
 export const getBuses = async (req, res) => {
 	try {
-		const buses = await Bus.findAndUpdate({ price: 500 });
-
+		const buses = await Bus.find();
 		res.status(200).json(buses);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
 };
+// export const getBuses = async (req, res) => {
+// 	try {
+// 		const buses = await Bus.updateMany({}, { price: 500 });
+
+// 		res.status(200).json(buses);
+// 	} catch (error) {
+// 		res.status(400).json({ error: error.message });
+// 	}
+// };
 export const getBus = async (req, res) => {
 	try {
 		const busId = req.params.id;

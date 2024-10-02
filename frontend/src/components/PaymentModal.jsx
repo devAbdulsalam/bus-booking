@@ -1,60 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useContext } from 'react';
-import AuthContext from '../../context/authContext';
-import toast from 'react-hot-toast';
-import axios from 'axios';
-import getError from '../../hooks/getError';
-import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
+import moment from 'moment';
 import Modal from './Modal';
 import { HiXMark } from 'react-icons/hi2';
 
-const PaymentModal = ({ show, setShow, setLoading, loading, bookingData }) => {
-	const { user } = useContext(AuthContext);
-	const apiUrl = import.meta.env.VITE_API_URL;
-	const config = {
-		headers: {
-			Authorization: `Bearer ${user?.token}`,
-		},
-	};
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (!bookingData) {
-			return;
-		}
-		// if (account) {
-		// 	console.log(account);
-		// 	return toast.error('account is required');
-		// }
-		setLoading(true);
-		setShow(false);
-
-		try {
-			axios
-				.post(`${apiUrl}/booking`, { ...bookingData }, config)
-				.then((res) => {
-					if (res.data) {
-						queryClient.invalidateQueries({
-							queryKey: ['dashboard', 'customers'],
-						});
-						toast.success('Trip Booked successfully');
-					}
-					navigate('/');
-				})
-				.catch((error) => {
-					const message = getError(error);
-					toast.error(message);
-				})
-				.finally(() => {
-					setLoading(false);
-				});
-		} catch (error) {
-			console.log(error);
-			setShow(true);
-		}
-	};
+const PaymentModal = ({ show, setShow, loading, data, handleBookTrip }) => {
+    console.log(data);
 
 	return (
 		<Modal show={show}>
@@ -78,12 +28,25 @@ const PaymentModal = ({ show, setShow, setLoading, loading, bookingData }) => {
 						<h2 className="font-semibold text-lg text-primary mb-2">
 							Are you sure?
 						</h2>
-						<h2></h2>
+						<div>
+							<div className="flex justify-between items-center">
+								<p>From: {data?.from}</p>
+								<p>To: {data?.to}</p>
+							</div>
+							<div className="flex justify-between items-center">
+								<p>Booked Seat(s): {data?.seat}</p>
+							<p>Price: {data?.price}</p>
+							</div>
+								<p>Date: {moment(data?.date).format('MMM Do')}</p>
+						</div>
+						<p className="font-bold">
+							Total Price: {Number(data?.seat) * Number(data?.price)}
+						</p>
 					</div>
 					<button
 						disabled={loading}
-						className="bg-red-500 hover:bg-red-700 text-white font-semibold h-10 py-1 w-full flex items-center justify-center rounded-md transition-all duration-500 ease-in-out"
-						onClick={handleSubmit}
+						className="bg-blue-500 hover:bg-blue-700 text-white font-semibold h-10 py-1 w-full flex items-center justify-center rounded-md transition-all duration-500 ease-in-out"
+						onClick={handleBookTrip}
 					>
 						<span>Confirm Booking</span>
 					</button>

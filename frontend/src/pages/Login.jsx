@@ -9,6 +9,7 @@ import AuthContext from '../context/authContext';
 import Swal from 'sweetalert2';
 import logo from '../assets/logo.jpg';
 import bgImage from '../assets/adust.png';
+import toast from 'react-hot-toast';
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -37,12 +38,7 @@ const Login = () => {
 			console.log('Login successful:', response.data);
 			setUser({ ...response.data });
 			LocalStorage.set('user', { ...response.data });
-			Swal.fire({
-				title: 'Login successfull',
-				icon: 'success',
-				text: 'Log in account successfully',
-				confirmButtonColor: '#3085d6',
-			});
+			toast.success('Login successfull');
 		} catch (error) {
 			setLoading(false);
 			console.error('Error registering:', error);

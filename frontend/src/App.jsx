@@ -31,13 +31,13 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/add-bus" element={<AddBus />} />
 						<Route path="/fund" element={<Monnify />} />
-						<Route path="/trips" element={<Trips />} />
-						<Route path="/trips/:id" element={<TripInfo />} />
+						<Route path="/buses" element={<Trips />} />
 						<Route path="/bookings" element={<Bookings />} />
 						<Route path="/bookings/:id" element={<BookingInfo />} />
 						<Route path="/book-trip" element={<BookTrip />} />
+						{/* 
 						<Route path="/trips/:id/book-trip" element={<BookTrip />} />
-						<Route path="/trips/:id/payment" element={<Payment />} />
+						<Route path="/trips/:id/payment" element={<Payment />} /> */}
 						{/* <Route
 							path="/trips/:id/confirm-payment"
 							element={<ConfirmPayment />}

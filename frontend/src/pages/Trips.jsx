@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Loader from '../components/Loader';
-import { fetchTrips } from '../hooks/axiosApis';
+import { fetchBuses } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,8 @@ import moment from 'moment';
 function Buses() {
 	const { user } = useContext(AuthContext);
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['trips'],
-		queryFn: async () => fetchTrips(user.accessToken || user.token),
+		queryKey: ['buses'],
+		queryFn: async () => fetchBuses(user.accessToken || user.token),
 	});
 
 	const navigate = useNavigate();
@@ -30,11 +30,11 @@ function Buses() {
 			) : (
 				<main className="body-content px-8 py-8 bg-slate-100">
 					<div className="page-title mb-7">
-						<h3 className="mb-0 text-4xl">Trips</h3>
+						<h3 className="mb-0 text-4xl">uses</h3>
 					</div>
 					<div>
-						{data?.trips?.length > 0 &&
-							data?.trips?.map((item) => {
+						{data?.length > 0 &&
+							data?.map((item) => {
 								return (
 									<div
 										key={item._id}

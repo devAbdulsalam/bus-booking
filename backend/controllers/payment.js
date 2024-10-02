@@ -144,7 +144,7 @@ export const updatePayment = async (req, res) => {
 		const { userId, amount } = req.body;
 		const user = await User.findByIdAndUpdate(
 			{ _id: userId },
-			{ $inc: { wallet: + amount } }
+			{ $inc: { wallet: +amount } }
 		);
 		res.json(user);
 	} catch (error) {

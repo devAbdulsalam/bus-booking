@@ -9,8 +9,8 @@ export const createBooking = async (req, res) => {
 	try {
 		const userId = req.user._id; // Get user ID from the request (authenticated user)
 		const user = await User.findById(userId);
-		const admin = await User.findOne({role: 'ADMIN'});
-
+		const admin = await User.findOne({ role: 'ADMIN' });
+		console.log('tripTime', tripTime);
 		// Find the bus
 		const bus = await Bus.findById(busId);
 		if (!bus) {
@@ -33,7 +33,7 @@ export const createBooking = async (req, res) => {
 		}
 
 		// Define a constant price for the booking per seat (you can adjust this as needed)
-		const pricePerSeat = 500; // Example price per seat
+		const pricePerSeat = bus.price;
 		const totalPrice = pricePerSeat * seat;
 
 		// Check if the user has sufficient wallet balance
@@ -48,26 +48,26 @@ export const createBooking = async (req, res) => {
 		user.wallet -= totalPrice;
 		admin.wallet += totalPrice;
 		// Create the booking
-		const booking = new Booking({
+		const booking = await Booking.create({
+			tripTime,
 			userId,
+			busId,
 			from,
 			to,
-			tripTime,
 			date,
 			price: totalPrice,
 			seat,
 			status: 'CONFIRMED', // Set status to CONFIRMED upon successful booking
 		});
-
-		// Save the booking and update the bus and user information
-		await booking.save();
 		bus.seatsFilled += seat;
 		await bus.save();
 		await user.save();
+		await admin.save();
 
 		// Return success response
 		res.status(201).json({ message: 'Booking successful', booking });
 	} catch (error) {
+		console.log(error);
 		// Handle errors
 		res.status(400).json({ error: error.message });
 	}
@@ -80,7 +80,7 @@ export const getbookings = async (req, res) => {
 		if (req.user.role === 'ADMIN') {
 			result = await Booking.find();
 		} else {
-			result = await Booking.find({ userId }).populate('tripId');
+			result = await Booking.find({ userId }).populate('busId');
 		}
 		res.status(200).json(result);
 	} catch (error) {
