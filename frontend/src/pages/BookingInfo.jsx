@@ -1,14 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Loader from '../components/Loader';
 import { fetchBooking } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import getError from './../hooks/getError';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const BookingInfo = () => {
 	const { user } = useContext(AuthContext);
 	const { id } = useParams();
+	const [loading, setLoading] = useState(false);
 	const props = { token: user.accessToken || user.token, id };
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['bookings', id],
@@ -19,12 +24,43 @@ const BookingInfo = () => {
 	if (error) {
 		console.log(error);
 	}
-	const handleClick = () => {
-		navigate(`/bookings/${id}`);
+
+	const apiUrl = import.meta.env.VITE_API_URL;
+	const handleClick = async () => {
+		try {
+			setLoading(true);
+			const { data } = await axios.patch(
+				`${apiUrl}/bookings`,
+				{ status: 'COMPLETED' },
+				{
+					headers: {
+						Authorization: `Bearer ${user?.token || user?.accessToken}`,
+					},
+				}
+			);
+			if (data) {
+				console.log(data);
+				toast.success('Trip confirmed successfully');
+				navigate(`/bookings`);
+			}
+			setLoading(false);
+		} catch (error) {
+			// const message = error?.data || 'Something went wrong!';
+			setLoading(false);
+			console.log('Error booking trip', error);
+			const message = getError(error);
+			return Swal.fire({
+				title: 'Error!',
+				icon: 'error',
+				text: message,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+			});
+		}
 	};
 	return (
 		<>
-			{isLoading ? (
+			{isLoading || loading ? (
 				<Loader />
 			) : (
 				<main className="body-content px-8 py-8 bg-slate-100">
@@ -45,12 +81,12 @@ const BookingInfo = () => {
 						</div>
 					</div>
 					<div className="flex justify-center my-10">
-						{data?.status !== 'COMPLETED' ? (
+						{user?.user?.role === 'ADMIN' && data?.status !== 'COMPLETED' ? (
 							<button
 								className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
 								onClick={handleClick}
 							>
-								Book now
+								Confirm booking
 							</button>
 						) : (
 							<button
