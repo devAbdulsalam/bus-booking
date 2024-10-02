@@ -44,18 +44,7 @@ export const createReport = async (req, res) => {
 	const { message, address } = req.body;
 	const userId = req.user._id;
 	try {
-		const report = new Report({ message, userId, address });
-		await report.save();
-
-		// const mailOptions = {
-		// 	from: process.env.EMAIL_USER,
-		// 	to: process.env.SCHOOL_MANAGEMENT_EMAIL,
-		// 	subject: 'Emergency Report',
-		// 	text: `User ID: ${userId}\nMessage: ${message}`,
-		// };
-
-		// transporter.sendMail(mailOptions, (error, info) => {
-		// 	if (error) return res.status(400).json({ error: error.message });
+		const report = await create({ message, userId, address });
 		res.status(201).json({ message: 'Report sent successfully', report });
 		// });
 	} catch (error) {
@@ -64,11 +53,11 @@ export const createReport = async (req, res) => {
 };
 
 export const updateReport = async (req, res) => {
-	const { status, id } = req.body;
+	const { status } = req.body;
 
 	try {
 		const result = await Report.findByIdAndUpdate(
-			id,
+			{ _id: req.params.id },
 			{ status },
 			{ new: true }
 		).populate('userId');

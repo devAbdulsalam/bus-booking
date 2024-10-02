@@ -28,9 +28,7 @@ const EmergencyReport = () => {
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${
-							user?.user?.accessToken || user?.user?.token
-						}`,
+						Authorization: `Bearer ${user?.token || user?.accessToken}`,
 					},
 				}
 			);

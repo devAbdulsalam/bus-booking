@@ -11,6 +11,6 @@ const router = express.Router();
 router.get('/', auth, getReports);
 router.get('/:id', auth, getReport);
 router.post('/', auth, createReport);
-router.patch('/', auth, updateReport);
+router.patch('/:id', auth, updateReport);
 
 export default router;

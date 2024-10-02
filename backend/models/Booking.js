@@ -6,9 +6,16 @@ const bookingSchema = new mongoose.Schema({
 	from: { type: String, required: true },
 	to: { type: String, required: true },
 	tripTime: {
-		type: String,
+		type: Date,
+		required: true,
+		default: Date.now, // Set to current date by default
 	},
-	date: { type: Date, required: true, index: true },
+	date: {
+		type: Date,
+		required: true,
+		index: true,
+		default: Date.now, // Set to current date by default
+	},
 	price: { type: Number, required: true },
 	seat: { type: Number, required: true },
 	status: {

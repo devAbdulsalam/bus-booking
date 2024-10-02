@@ -30,7 +30,7 @@ const BookingInfo = () => {
 		try {
 			setLoading(true);
 			const { data } = await axios.patch(
-				`${apiUrl}/bookingsupdate/${id}`,
+				`${apiUrl}/bookings/update/${id}`,
 				{ status: 'COMPLETED' },
 				{
 					headers: {
@@ -69,14 +69,21 @@ const BookingInfo = () => {
 					</div>
 					<div className="bg-white shadow rounded-lg my-2 px-6 py-5">
 						<div>
-							<div className="flex justify-between items-center">
+							<div className="grid grid-cols-2 justify-between items-center">
 								<p>From: {data?.from || data?.tripId?.from}</p>
 								<p>To: {data?.to || data?.tripId?.to}</p>
-							</div>
-							<div className="flex justify-between items-center">
+								<p>Seat(s): {data?.seat}</p>
 								<p>Price: {data?.price}</p>
 								<p>Date: {moment(data?.date).format('MMM Do')}</p>
-								<p>Seat(s): {data?.seat}</p>
+								<p
+									className={`${
+										data?.status === 'COMPLETED'
+											? 'text-green-500'
+											: 'text-yellow-700'
+									}`}
+								>
+									Status: {data?.status}
+								</p>
 							</div>
 						</div>
 					</div>

@@ -7,8 +7,8 @@ import getError from './../hooks/getError';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
-import moment from 'moment';
-import { useParams, useNavigate } from 'react-router-dom';
+// import  from 'moment';
+import {  useNavigate } from 'react-router-dom';
 import PaymentModal from '../components/PaymentModal';
 
 const BusInfo = () => {
