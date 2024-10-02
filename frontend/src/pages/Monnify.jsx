@@ -21,6 +21,7 @@ const App = () => {
 
 	useEffect(() => {
 		if (user) {
+			console.log(user.user)
 			setCustomerEmail(user?.user?.email);
 			setCustomerFullName(user?.user?.name);
 			setCustomerMobileNumber(user?.user?.phone);
@@ -31,11 +32,21 @@ const App = () => {
 	const handlePayment = async (response) => {
 		setLoading(true);
 		await axios
-			.post(`${apiUrl}/payments/update-payment`, {
-				userId: user?.user?._id,
-				amount,
-				...response,
-			})
+			.post(
+				`${apiUrl}/payments/update-payment`,
+				{
+					userId: user?.user?._id,
+					amount,
+					...response,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${
+							user?.user?.accessToken || user?.user?.token
+						}`,
+					},
+				}
+			)
 			.then((data) => {
 				console.log('Payment status updated:', data);
 				alert('Payment Successful!');

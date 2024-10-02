@@ -1,45 +1,74 @@
-import Booking from '../models/Booking.js';
-import Trip from '../models/Trip.js';
 import asyncHandler from 'express-async-handler';
+import Booking from '../models/Booking.js';
+import User from '../models/User.js';
 import Bus from '../models/Bus.js';
 
 export const createBooking = async (req, res) => {
-	const { tripId, seat } = req.body;
+	const { busId, seat, from, to, tripTime, date } = req.body;
 
 	try {
-		const userId = req.user._id;
-		const trip = await Trip.findById(tripId).populate('bus');
-		if (!trip) {
-			return res.status(404).json({ message: 'Trip not found' });
+		const userId = req.user._id; // Get user ID from the request (authenticated user)
+		const user = await User.findById(userId);
+		const admin = await User.findOne({role: 'ADMIN'});
+
+		// Find the bus
+		const bus = await Bus.findById(busId);
+		if (!bus) {
+			return res.status(404).json({ message: 'Bus not found' });
 		}
 
-		const bus = trip.bus;
+		// Check if the bus is fully booked
 		if (bus.seatsFilled >= bus.seatCapacity) {
 			return res
 				.status(400)
-				.json({ message: 'Bus is fully booked, no more available seat.' });
+				.json({ message: 'Bus is fully booked, no available seats.' });
 		}
-		const availableSeats = bus.seatCapacity - bus.seatsFilled;
 
+		// Calculate available seats
+		const availableSeats = bus.seatCapacity - bus.seatsFilled;
 		if (availableSeats < seat) {
 			return res.status(400).json({
 				message: `Only ${availableSeats} seat(s) available, but ${seat} seat(s) requested.`,
 			});
 		}
-		const totalPrice = Number(trip.price) * Number(seat);
+
+		// Define a constant price for the booking per seat (you can adjust this as needed)
+		const pricePerSeat = 500; // Example price per seat
+		const totalPrice = pricePerSeat * seat;
+
+		// Check if the user has sufficient wallet balance
+		if (user.wallet < totalPrice) {
+			return res.status(400).json({
+				message:
+					'Insufficient funds, please fund your account to complete the booking.',
+			});
+		}
+
+		// Deduct the amount from user's wallet
+		user.wallet -= totalPrice;
+		admin.wallet += totalPrice;
+		// Create the booking
 		const booking = new Booking({
 			userId,
-			tripId: trip._id,
-			seat,
+			from,
+			to,
+			tripTime,
+			date,
 			price: totalPrice,
+			seat,
+			status: 'CONFIRMED', // Set status to CONFIRMED upon successful booking
 		});
+
+		// Save the booking and update the bus and user information
 		await booking.save();
-
-		bus.seatsFilled += 1;
+		bus.seatsFilled += seat;
 		await bus.save();
+		await user.save();
 
+		// Return success response
 		res.status(201).json({ message: 'Booking successful', booking });
 	} catch (error) {
+		// Handle errors
 		res.status(400).json({ error: error.message });
 	}
 };
@@ -63,7 +92,7 @@ export const getbooking = async (req, res) => {
 		const { id } = req.params;
 
 		console.log('booking req.params.id', req.params.id);
-		const booking = await Booking.findById(id).populate('tripId').populate({
+		const booking = await Booking.findById(id).populate('busId').populate({
 			path: 'userId',
 			select: 'email name phone rank',
 		});
@@ -76,58 +105,6 @@ export const getbooking = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
-
-export const updateBooking = asyncHandler(async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { seat } = req.body;
-
-		const booking = await Booking.findById(id);
-		if (!booking) {
-			return res.status(404).json({ message: 'Booking not found' });
-		}
-
-		// Check if the booking is already confirmed or completed
-		if (['CONFIRMED', 'COMPLETED'].includes(booking.status)) {
-			return res.status(400).json({
-				message: 'Cannot update an already confirmed or completed booking',
-			});
-		}
-
-		const trip = await Trip.findById(booking.tripId).populate('bus');
-		if (!trip) {
-			return res.status(404).json({ message: 'Trip not found' });
-		}
-
-		const bus = trip.bus;
-		const currentSeatsFilled = bus.seatsFilled;
-		const newSeatsFilled = currentSeatsFilled - booking.seat + seat;
-
-		if (newSeatsFilled > bus.seatCapacity) {
-			return res.status(400).json({
-				message: `Only ${
-					bus.seatCapacity - currentSeatsFilled + booking.seat
-				} seat(s) available, but ${seat} seat(s) requested.`,
-			});
-		}
-
-		// Update the booking
-		booking.seat = seat;
-		booking.price = Number(trip.price) * Number(seat);
-		await booking.save();
-
-		// Update bus seats filled
-		bus.seatsFilled = newSeatsFilled;
-		await bus.save();
-
-		res.status(200).json({
-			message: 'Booking updated successfully',
-			booking,
-		});
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
-});
 
 export const updateBookingStatus = async (req, res) => {
 	try {

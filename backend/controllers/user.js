@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Report from '../models/Report.js';
-import Trip from '../models/Trip.js';
 import Bus from '../models/Bus.js';
 import Booking from '../models/Booking.js';
 import { createToken, createRefreshToken } from './../utils/tokens.js';
@@ -107,42 +106,30 @@ export const refreshToken = async (req, res) => {
 export const getUserDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;
+		const user = await User.findById({ _id: userId });
 		const reports = await Report.find({ userId }).limit(5);
-		// get current date and get 5 trips closer to the date
-		const currentDate = new Date();
-
-		const trips = await Trip.find({
-			date: {
-				$gte: currentDate,
-			},
-		})
-			.sort({
-				date: 1,
-			})
-			.limit(5);
 		let result;
 		if (req.user.role === 'ADMIN') {
 			result = await Booking.find().limit(5);
 		} else {
 			result = await Booking.find({ userId });
 		}
-		const data = { user: req.user, reports, bookings: result, trips };
-		// Send the response
-		res.json(data);
+
+		res.json({ user, reports, bookings: result });
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
 };
 export const getAdminDashboard = async (req, res) => {
 	try {
+		const userId = req.user._id;
+		const user = await User.findById({ _id: userId });
 		const totalreports = await Report.countDocuments();
 		const totalusers = await User.countDocuments();
-		const totaltrips = await Trip.countDocuments();
 		const totalbuses = await Bus.countDocuments();
 		const totalbookings = await Booking.countDocuments();
 		const reports = await Report.find().limit(5);
 		const users = await User.find().limit(5);
-		const trips = await Trip.find().limit(5);
 		const buses = await Bus.find().limit(5);
 		// Define a custom sort order for statuses
 		const sortOrder = { pending: 1, confirmed: 2, conpleted: 3, canceled: 4 };
@@ -182,6 +169,7 @@ export const getAdminDashboard = async (req, res) => {
 		]);
 		const data = {
 			totalusers,
+			user,
 			users,
 			totalreports,
 			reports,
@@ -189,8 +177,6 @@ export const getAdminDashboard = async (req, res) => {
 			bookings,
 			totalbuses,
 			buses,
-			totaltrips,
-			trips,
 		};
 		// Send the response
 		res.json(data);
@@ -202,7 +188,6 @@ export const getAdminDashboard = async (req, res) => {
 export const getUsers = async (req, res) => {
 	try {
 		const users = await User.find();
-
 		res.json(users);
 	} catch (err) {
 		res.status(500).send(err.message);

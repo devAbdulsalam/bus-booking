@@ -31,8 +31,14 @@ export const fetchDashboard = async (user) => {
 				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
-		console.log(user);
-		const { data } = await axios.get(`${apiUrl}/users/admin/dashboard`, config);
+		console.log(user.role);
+		let endPoint;
+		if (user.role == 'USER') {
+			endPoint = 'users/user/dashboard';
+		} else {
+			endPoint = 'users/admin/dashboard';
+		}
+		const { data } = await axios.get(`${apiUrl}/${endPoint}`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);

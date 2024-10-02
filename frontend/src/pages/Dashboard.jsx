@@ -94,7 +94,7 @@ const Dashboard = () => {
 						) : (
 							<div>
 								<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-									₦ {user?.user?.wallet}
+									₦ {data?.user?.wallet}
 								</h4>
 								<p className="text-tiny leading-4 mt-2">Wallet</p>
 							</div>

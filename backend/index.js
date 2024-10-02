@@ -7,7 +7,6 @@ import userRoutes from './routes/user.js';
 import bookingRoutes from './routes/booking.js';
 import busRoutes from './routes/bus.js';
 import reportRoutes from './routes/report.js';
-import tripRoutes from './routes/trip.js';
 import paymentRoutes from './routes/payment.js';
 import healthRoutes from './routes/health.js';
 import walletRoutes from './routes/wallet.js';
@@ -25,7 +24,6 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/wallet', walletRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/buses', busRoutes);
-app.use('/api/v1/trips', tripRoutes);
 app.use('/api/v1/reports', reportRoutes);
 app.use('/api/v1/payments', paymentRoutes);
 

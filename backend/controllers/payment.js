@@ -142,10 +142,9 @@ export const getPayments = async (req, res) => {
 export const updatePayment = async (req, res) => {
 	try {
 		const { userId, amount } = req.body;
-		console.log('req.body', req.body);
 		const user = await User.findByIdAndUpdate(
 			{ _id: userId },
-			{ wallet: amount }
+			{ $inc: { wallet: + amount } }
 		);
 		res.json(user);
 	} catch (error) {
