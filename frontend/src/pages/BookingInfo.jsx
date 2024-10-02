@@ -30,7 +30,7 @@ const BookingInfo = () => {
 		try {
 			setLoading(true);
 			const { data } = await axios.patch(
-				`${apiUrl}/bookings`,
+				`${apiUrl}/bookingsupdate/${id}`,
 				{ status: 'COMPLETED' },
 				{
 					headers: {

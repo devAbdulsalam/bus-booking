@@ -110,9 +110,10 @@ export const updateBookingStatus = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { status } = req.body;
-		const result = await Booking.findByIdAndUpdte(id, { status }).populate(
-			'userId'
-		);
+		const result = await Booking.findByIdAndUpdate(
+			{ _id: id },
+			{ status }
+		).populate('userId');
 		res.status(201).json(result);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
