@@ -44,7 +44,7 @@ export const createReport = async (req, res) => {
 	const { message, address } = req.body;
 	const userId = req.user._id;
 	try {
-		const report = await create({ message, userId, address });
+		const report = await Report.create({ message, userId, address });
 		res.status(201).json({ message: 'Report sent successfully', report });
 		// });
 	} catch (error) {
