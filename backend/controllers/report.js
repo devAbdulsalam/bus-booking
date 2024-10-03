@@ -32,7 +32,7 @@ export const getReport = async (req, res) => {
 		});
 
 		if (!reportResult) {
-			return res.status(404).json({ message: 'Report not found' });
+			return res.status(404).json({ message: 'Report not found !' });
 		}
 		res.status(201).json(reportResult);
 	} catch (error) {
