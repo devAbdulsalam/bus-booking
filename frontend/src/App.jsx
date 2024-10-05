@@ -12,7 +12,7 @@ import Payment from './pages/Payment';
 // import ConfirmPayment from './pages/ConfirmPayment';
 import BookTrip from './pages/BookTrip';
 import TripInfo from './pages/TripInfo';
-import Trips from './pages/Trips';
+import Trips from './pages/Buses';
 import Report from './pages/Report';
 import Reports from './pages/Reports';
 import ReportInfo from './pages/ReportInfo';

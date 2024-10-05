@@ -39,16 +39,14 @@ const BusInfo = () => {
 		to: ['Kano', 'University'],
 	};
 	const tripTime = [
-		{ time: '07:30 am', name: '70:00 am' },
+		{ time: '07:30 am', name: '70:30 am' },
+		{ time: '08:30 am', name: '08:30 am' },
 		{ time: '09:30 am', name: '09:30 am' },
-		{ time: '10:30 am', name: '10:30 am' },
 		{ time: '11:30 am', name: '11:30 am' },
 		{ time: '12:30 pm', name: '12:30 pm' },
-		{ time: '01:30 pm', name: '01:30 pm' },
-		{ time: '02:30 pm', name: '02:30 pm' },
-		{ time: '03:30 pm', name: '03:30 pm' },
 		{ time: '04:30 pm', name: '04:30 pm' },
-		{ time: '02:30 pm', name: '05:30 pm' },
+		{ time: '05:30 pm', name: '05:30 pm' },
+		{ time: '06:30 pm', name: '06:30 pm' },
 	];
 
 	const navigate = useNavigate();

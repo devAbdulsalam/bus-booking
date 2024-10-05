@@ -452,28 +452,32 @@ const Dashboard = () => {
 					</div>
 					<div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
 						<div className="px-6 py-5 font-semibold border-b border-gray-100">
-							New Trips
+							Bus schedules
 						</div>
 						<div className="p-4 flex-grow">
 							<ul className="p-6 space-y-6">
-								{data?.trips?.length > 0 &&
-									data?.trips?.map((item) => {
+								{data?.buses?.length > 0 &&
+									data?.buses?.map((item) => {
 										return (
 											<li
 												key={item._id}
-												onClick={() => navigate(`/trips/${item._id}`)}
+												onClick={() => navigate(`/buses`)}
 												className="flex items-center justify-between cursor-pointer text-sm"
 											>
 												<div className="">
-													<p className="text-gray-600">From: {item?.from}</p>
-													<p className="text-gray-600">To: {item?.to}</p>
+													<p className="text-gray-600">
+														From: {item?.from || 'University'}
+													</p>
+													<p className="text-gray-600">
+														To: {item?.to || 'Kano'}
+													</p>
 												</div>
 												<div className="">
-													<p className="ml-auto font-semibold">
+													<p className="ml-auto font-semibold text-green-500">
 														₦ {item?.price}
 													</p>
 													<p className="ml-auto">
-														{moment(item?.date).format('MMM Do YY, h:mm')}
+														{moment(item?.date).format('LT')}
 													</p>
 												</div>
 											</li>

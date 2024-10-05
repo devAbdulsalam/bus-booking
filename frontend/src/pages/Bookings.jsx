@@ -47,7 +47,7 @@ function Bookings() {
 											<p className="">From: {item?.from}</p>
 											<p className="">To: {item?.to}</p>
 											<p className="">
-												Date: {moment(item?.date).format('MMM Do')}
+												Date: {moment(item?.date).format('LT')}
 											</p>
 											<p className="">Seat(s): {item?.seat}</p>
 											<p className="text-green-500">Price: {item?.price}</p>
