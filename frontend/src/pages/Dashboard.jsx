@@ -477,7 +477,9 @@ const Dashboard = () => {
 														₦ {item?.price}
 													</p>
 													<p className="ml-auto">
-														{moment(item?.date).format('LT')}
+														{moment(item?.date).format(
+								'DD-MM-YYYY HH:SS A'
+							)}
 													</p>
 												</div>
 											</li>

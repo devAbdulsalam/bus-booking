@@ -48,7 +48,8 @@ function Buses() {
 										</div>
 										<div className="flex justify-between items-center">
 											<p className="">
-												Date: {moment(item?.tripTime).format('LT')}
+												Date:{' '}
+												{moment(item?.tripTime).format('DD-MM-YYYY HH:SS A')}
 											</p>
 											<p className="">Price: {item.price}</p>
 										</div>
